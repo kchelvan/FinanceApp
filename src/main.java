@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -16,12 +17,22 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import styles.Styling;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 public class main extends Application {
     // Global Variable Declaration
     Integer windowWidth = 1024;
-    Integer windowHeight = 1080;
+    Integer windowHeight = 900; //TODO Changed Because my screen can't display fit
     Integer page = 0;
     Styling styles = new Styling();
+
+    VBox accountsVBox = new VBox(); //TODO Temporarily moved to global variable, needs to be moved back and used from database?
+    Integer index = 0; //TODO Not sure how else to alternate between colour schemes while keeping track
+
+    protected ArrayList<Account> accountsList = new ArrayList<>();
 
     // Single form used to allow only one form to be open at a time
     Stage form =  new Stage();
@@ -35,7 +46,7 @@ public class main extends Application {
         // Variable Declaration
         primaryStage.setTitle("Finance Application");
         VBox vBox = new VBox();
-        VBox accountsVBox = new VBox();
+        //VBox accountsVBox = new VBox(); //TODO Needs to be added back
         HBox navigation = generateNavigation();
         HBox footer = generateFooter();
         ScrollPane accounts = new ScrollPane();
@@ -55,14 +66,13 @@ public class main extends Application {
         menuFile.getItems().addAll(exitFile);
         menuBar.getMenus().addAll(menuFile);
 
-        // Displays information about each Account open for the user
-        for (int i = 0; i < 4; i++) {
-            accountsVBox.getChildren().add(generateAccount(
-                    "Savings",
-                    500.0,
-                    1500.0,
-                    0.15,
-                    i));
+        // TEMP Displays information about each Account open for the user
+        for (int i = 0; i < 2; i++) {
+            Account tempAcc = new Account("Savings", "Savings0" + i, 500.0,
+                    1500.0, i);
+            index++;
+            accountsList.add(tempAcc);
+            accountsVBox.getChildren().add(generateAccount(tempAcc));
         }
         // Styling for the VBox containing the different user accounts
         accountsVBox.setMinHeight(990);
@@ -265,7 +275,14 @@ public class main extends Application {
         return vBox;
     }
 
-    public HBox generateAccount(String accountType, Double currentBalance, Double maxBalance, Double investmentRate, Integer accountNum) {
+    public HBox generateAccount(Account ac){
+        String accountType  = ac.getAccountType();
+        String accountName = ac.getAccountName();
+        Double currentBalance = ac.getCurrentBalance();
+        Double maxBalance = ac.getInvestmentGoal();
+        Double investmentRate = ac.getInvestmentGoal();
+        Integer accountNum = ac.getAccountNumber();
+
         // Variable Declaration
         HBox account = new HBox();
         VBox accountDetails = new VBox();
@@ -283,11 +300,12 @@ public class main extends Application {
         gc.fillArc(100, 40, 280, 280, 0, partition, ArcType.ROUND);
 
         // Variable Declaration for Account Details
-        Label title = new Label("Savings Account");
+        Label title = new Label(accountType + " Account");
+        Label name = new Label("Account Name: " + accountName);
         Label balance = new Label("Balance: " + currentBalance.toString());
         Label investmentGoal = new Label("Investment Goal: " + maxBalance.toString());
         Label growthRate = new Label("Growth Rate: " + investmentRate.toString());
-        Label timeToMaturation = new Label("Time until Maturation: 1 Year");
+        Label timeToMaturation = new Label("Time until Maturation: 1 Year"); //TODO Change Maturation to Proper Value
 
         if (accountNum % 2 != 0) {
             account.setStyle("-fx-background-color: #BEC3D4");
@@ -295,6 +313,7 @@ public class main extends Application {
 
         // Font Styling for Account Details
         title.setStyle("-fx-font-size: 30.0; -fx-font-weight: bold; -fx-font-family: Rockwell");
+        name.setStyle("-fx-font-size: 16.0; -fx-font-family: Rockwell");
         balance.setStyle("-fx-font-size: 16.0; -fx-font-family: Rockwell");
         investmentGoal.setStyle("-fx-font-size: 16.0; -fx-font-family: Rockwell");
         growthRate.setStyle("-fx-font-size: 16.0; -fx-font-family: Rockwell");
@@ -305,6 +324,7 @@ public class main extends Application {
         // Generate Table displaying details of Account
         accountDetails.getChildren().addAll(
                 title,
+                name,
                 balance,
                 investmentGoal,
                 growthRate,
@@ -414,8 +434,11 @@ public class main extends Application {
         Label fromLabel = new Label("FROM");
         Label amountLabel = new Label("AMOUNT");
 
-        ComboBox toSelect = new ComboBox();
-        ComboBox fromSelect = new ComboBox();
+        List<String> accountNames = accountsList.stream().map(Account::getAccountName).collect(Collectors.toList());
+        System.out.println(accountNames);
+
+        ComboBox toSelect = new ComboBox(FXCollections.observableList(accountNames));
+        ComboBox fromSelect = new ComboBox(FXCollections.observableList(accountNames));
         TextField amountSelect = new TextField();
 
         Button transfer = new Button("TRANSFER");
@@ -447,7 +470,22 @@ public class main extends Application {
         selection.setStyle("-fx-background-color: #B8BEDD");
 
         // Closes the form once the transfer button is selected
-        transfer.setOnMouseClicked(e -> form.close());
+        transfer.setOnMouseClicked(e ->{
+            int toIndex = accountNames.indexOf(toSelect.getValue());
+            int fromIndex = accountNames.indexOf(fromSelect.getValue());
+            accountsList.get(fromIndex).withdraw(Double.parseDouble(amountSelect.getText()));
+            accountsList.get(toIndex).deposit(Double.parseDouble(amountSelect.getText()));
+            System.out.println(toIndex + " " + fromIndex);
+            System.out.println(accountsList.get(fromIndex).getCurrentBalance());
+            System.out.println(accountsList.get(toIndex).getCurrentBalance());
+
+            //TODO Remove PrintLns
+            accountsVBox.getChildren().clear();
+            for(Account tempAcc:accountsList) {
+                accountsVBox.getChildren().add(generateAccount(tempAcc));
+            }
+            form.close();
+        });
 
         // Displays the Transfer Form to the user
         form.setScene(new Scene(selection, 350, 350));
@@ -455,6 +493,10 @@ public class main extends Application {
     }
 
     public void openAccountForm() {
+
+        String[] accountTypes = {"Savings", "Checking"};
+        Account account = new Account();
+
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -464,7 +506,7 @@ public class main extends Application {
         Label accountTypeLabel = new Label("Account Type");
         Label accountNameLabel = new Label("Account Name");
 
-        ComboBox accountTypeSelect = new ComboBox();
+        ComboBox accountTypeSelect = new ComboBox(FXCollections.observableArrayList(accountTypes));
         TextField accountName = new TextField();
 
         Button openAccountButton = new Button("OPEN ACCOUNT");
@@ -491,13 +533,21 @@ public class main extends Application {
         // Styling for the main stage
         selection.setStyle("-fx-background-color: #B8BEDD");
 
-        // Closes the form once the transfer button is selected
-        openAccountButton.setOnMouseClicked(e -> form.close());
+        // Closes the form once the Open Account button is selected
+        openAccountButton.setOnMouseClicked(e ->{
+            account.addAccount((String) accountTypeSelect.getValue(), accountName.getText());
+            account.setAccountNumber(index);
+            index++;
+            accountsList.add(account);
+            accountsVBox.getChildren().add(generateAccount(account));
+            form.close();
+        });
 
         // Displays the Transfer Form to the user
         form.setScene(new Scene(selection, 400, 300));
         form.show();
     }
+
     public void depositWithdrawForm(String type) {
         // Variable Declaration
         GridPane selection = new GridPane();
