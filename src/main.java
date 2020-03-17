@@ -126,6 +126,7 @@ public class main extends Application {
         });
 
         // Event Handlers for the footer buttons
+<<<<<<< Updated upstream
         footer.getChildren().get(0).setOnMouseClicked(e -> openAccountForm());
         footer.getChildren().get(1).setOnMouseClicked(e -> depositWithdrawForm("Deposit"));
         footer.getChildren().get(2).setOnMouseClicked(e -> depositWithdrawForm("Withdraw"));
@@ -240,6 +241,23 @@ public class main extends Application {
                     (interestRate != "" ? interestRate : interestRateText.getText().isEmpty() ? "" : interestRateText.getText() + "%"));
             timeToMaturation.setText("Time til Maturation: " +
                     (time != "" ? time : yearsText.getText().isEmpty() ? "" : yearsText.getText() + " years"));
+=======
+        footer.getChildren().get(0).setOnMouseClicked(e -> {
+            index = forms.openAccountForm(index, accountsList, accountsVBox);
+        });
+        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
+        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));
+        footer.getChildren().get(3).setOnMouseClicked(e -> forms.transferForm(accountsList, accountsVBox));
+
+        vBox.setOnMouseClicked(e -> {
+            // Variable Declaration
+            // Obtains index of selected account
+            Integer accountIndex = (int) e.getY() / 350;
+            Account account = accountsList.get(accountIndex);
+
+            // Open Form to edit account
+            updateAccount(account, primaryStage);
+>>>>>>> Stashed changes
         });
 
         // Styling for the Account Details VBox
