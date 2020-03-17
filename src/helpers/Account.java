@@ -59,7 +59,6 @@ public class Account {
         return growthRate;
     }
     public void setGrowthRate(double growthRate) {
-        System.out.println(growthRate);
         this.growthRate = growthRate;
     }
 
@@ -68,6 +67,11 @@ public class Account {
     }
     public void setAccountNumber(int accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public double getTimeToMaturation() { return timeToMaturation; }
+    public void setTimeToMaturation() {
+        Math.round(((investmentGoal / currentBalance) - 1) / (growthRate/100 * 100.0)/100.0);
     }
 
     public void deposit(double amount) {this.currentBalance += amount;}
