@@ -1,6 +1,21 @@
-package styles;
+package helpers.styles;
 
+import java.util.ArrayList;
+
+// Styles used in the program
 public class Styling {
+    public ArrayList windowSize() {
+        // Variable Declaration
+        ArrayList window = new ArrayList();
+        Integer windowWidth = 1024;
+        Integer windowHeight = 900; //TODO Changed Because my screen can't display fit
+
+        window.add(windowWidth);
+        window.add(windowHeight);
+
+        // Returns an ArrayList in the form: [Window Width, Window Height]
+        return window;
+    }
     public String confirmButton() {
         return "-fx-min-height: 50; " +
                 "-fx-min-width: 400;" +
@@ -62,5 +77,31 @@ public class Styling {
                 "-fx-font-weight: bold;" +
                 "-fx-font-family: Rockwell;" +
                 "-fx-alignment: center";
+    }
+
+    public String navSelected() {
+        return "-fx-background-color: #8A93C0;" +
+                "-fx-background-radius: 0;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: Rockwell";
+    }
+
+    public String navDeselcted() {
+        return "-fx-background-color: #D8DEF1;" +
+                "-fx-background-radius: 0;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: Rockwell";
+    }
+
+    public String pageHeadText() {
+        return "-fx-font-size: 40.0; -fx-font-family: Rockwell";
+    }
+
+    public String titleText() {
+        return "-fx-font-size: 30.0; -fx-font-family: Rockwell";
+    }
+
+    public String labelText() {
+        return "-fx-font-size: 16.0; -fx-font-family: Rockwell";
     }
 }
