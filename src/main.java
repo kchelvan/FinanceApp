@@ -54,7 +54,7 @@ public class main extends Application {
 
         // TEMP Displays information about each Account open for the user
         for (int i = 0; i < 2; i++) {
-            Account tempAcc = new Account("Savings", "Savings0" + i, 500.0,
+            Account tempAcc = new Account("Savings", "Savings 0" + i, 500.0,
                     1500.0, i);
             index++;
             accountsList.add(tempAcc);

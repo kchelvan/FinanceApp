@@ -36,7 +36,7 @@ public class Forms {
         Label accountTypeLabel = new Label("Account Type");
         Label accountNameLabel = new Label("Account Name");
 
-        ComboBox accountTypeSelect = new ComboBox(FXCollections.observableArrayList(accountTypes));
+        ComboBox<String> accountTypeSelect = new ComboBox<>(FXCollections.observableArrayList(accountTypes));
         TextField accountName = new TextField();
 
         Button openAccountButton = new Button("OPEN ACCOUNT");
@@ -65,7 +65,7 @@ public class Forms {
 
         // Closes the form once the Open Account button is selected
         openAccountButton.setOnMouseClicked(e ->{
-            account.addAccount((String) accountTypeSelect.getValue(), accountName.getText());
+            account.addAccount(accountTypeSelect.getValue(), accountName.getText());
             account.setAccountNumber(index);
             accountsList.add(account);
             accountsVBox.getChildren().add(generate.generateAccount(account));
@@ -141,8 +141,8 @@ public class Forms {
         List<String> accountNames = accountsList.stream().map(Account::getAccountName).collect(Collectors.toList());
         System.out.println(accountNames);
 
-        ComboBox toSelect = new ComboBox(FXCollections.observableList(accountNames));
-        ComboBox fromSelect = new ComboBox(FXCollections.observableList(accountNames));
+        ComboBox<String> toSelect = new ComboBox<>(FXCollections.observableList(accountNames));
+        ComboBox<String> fromSelect = new ComboBox<>(FXCollections.observableList(accountNames));
         TextField amountSelect = new TextField();
 
         Button transfer = new Button("TRANSFER");

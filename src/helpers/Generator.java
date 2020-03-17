@@ -216,7 +216,7 @@ public class Generator {
         header.getChildren().addAll(calculator, details, accounts);
 
         // Generates Line Graph Depicting estimated Growth of Investment
-        XYChart lineGraph = generateGraph();
+        XYChart<Number, Number> lineGraph = generateGraph();
         lineGraph.setPadding(new Insets(50, 0, 0, 0));
 
         vBox.setStyle("-fx-background-color: #D8DEF1");
