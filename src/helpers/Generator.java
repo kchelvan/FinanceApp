@@ -10,6 +10,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,6 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import helpers.styles.Styling;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class Generator {
     // Global Variable Declaration
@@ -29,7 +33,7 @@ public class Generator {
         String accountName = ac.getAccountName();
         Double currentBalance = ac.getCurrentBalance();
         Double maxBalance = ac.getInvestmentGoal();
-        Double investmentRate = ac.getInvestmentGoal();
+        Double investmentRate = ac.getGrowthRate();
         Integer accountNum = ac.getAccountNumber();
 
         HBox account = new HBox();
@@ -55,9 +59,7 @@ public class Generator {
         Label growthRate = new Label("Growth Rate: " + investmentRate.toString());
         Label timeToMaturation = new Label("Time until Maturation: 1 Year"); //TODO Change Maturation to Proper Value
 
-        if (accountNum % 2 != 0) {
-            account.setStyle("-fx-background-color: #BEC3D4");
-        }
+        if (accountNum % 2 != 0) { account.setStyle("-fx-background-color: #BEC3D4"); }
 
         // Font Styling for Account Details
         title.setStyle(styles.titleText());
@@ -297,5 +299,51 @@ public class Generator {
 
         // Returns a Line Chart Object
         return lineChart;
+    }
+
+    public ScrollPane updateList(ArrayList<Account> accountsList, Stage primaryStage) {
+        // Variable Declaration
+        ScrollPane accounts = new ScrollPane();
+        VBox accountsVBox = new VBox();
+
+        // Updates accounts list with updated values
+        for (int i = 0; i < accountsList.size(); i++) {
+            accountsVBox.getChildren().add(generateAccount(accountsList.get(i)));
+        }
+
+        // Styling for the VBox containing the different user accounts
+        accountsVBox.setMinHeight( (Integer) styles.windowSize().get(0));
+
+        // Allows the user to scroll through the available accounts
+        accounts.setContent(accountsVBox);
+
+        // Styling for scroll pane
+        accounts.setStyle("-fx-background: #D8DEF1; -fx-background-color: #D8DEF1");
+        accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        accountsVBox.setOnMouseMoved(e -> {
+            // Variable Declaration
+            // Obtains index of selected account
+            Integer accountIndex = (int) e.getY() / 350;
+            if (primaryStage.isFocused()) {
+                if (accountsList.size() > accountIndex) {
+                    // Reset's surrounding account rows to their respective colour
+                    for (int i = 0; i < accountsList.size(); i++) {
+                        if (i != accountIndex) {
+                            accountsVBox.getChildren().get(i).setStyle((i % 2 != 0)
+                                    ? "-fx-background-color: #BEC3D4"
+                                    : "-fx-background-color: #D8DEF1");
+                        }
+                    }
+                    // Updates the background of the current account row to indicate that it is highlighted
+                    accountsVBox.getChildren().get(accountIndex).setStyle((accountIndex % 2 != 0)
+                            ? "-fx-background-color: #C1B3E2"
+                            : "-fx-background-color: #D9CFEB");
+                }
+            }
+        });
+
+        // Return VBox with updated accounts list
+        return accounts;
     }
 }

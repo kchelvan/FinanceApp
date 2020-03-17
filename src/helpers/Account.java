@@ -37,7 +37,7 @@ public class Account {
     public String getAccountName() {
         return accountName;
     }
-    public void getAccountName(String accountName) {
+    public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
 
@@ -59,6 +59,7 @@ public class Account {
         return growthRate;
     }
     public void setGrowthRate(double growthRate) {
+        System.out.println(growthRate);
         this.growthRate = growthRate;
     }
 
