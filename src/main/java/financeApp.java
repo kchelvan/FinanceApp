@@ -17,7 +17,7 @@ import main.java.helpers.styles.Styling;
 
 import java.util.ArrayList;
 
-public class main extends Application {
+public class financeApp extends Application {
     // Global Variable Declaration
     Integer page = 0;
     Styling styles = new Styling();
