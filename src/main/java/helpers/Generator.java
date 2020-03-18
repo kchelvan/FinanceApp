@@ -1,4 +1,4 @@
-package helpers;
+package main.java.helpers;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,8 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
-import helpers.styles.Styling;
 import javafx.stage.Stage;
+import main.java.helpers.styles.Styling;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class Generator {
     // Global Variable Declaration
     Styling styles = new Styling();
     Stage form =  new Stage();
-    Integer windowWidth = (Integer) styles.windowSize().get(0);
+    Integer windowWidth = styles.windowSize().get(0);
 
     public HBox generateAccount(Account ac){
         // Variable Declaration
@@ -93,8 +93,7 @@ public class Generator {
         // Returns HBox containing account details
         return account;
     }
-
-    public VBox generateInvestmentCalculator() {
+    public VBox generateInvestmentCalculator(ArrayList<Account> accountsList) {
         // Variable Declaration
         VBox vBox = new VBox();
         VBox calculator = new VBox();
@@ -115,6 +114,8 @@ public class Generator {
         Label interestRateLabel = new Label("Growth Rate: " + interestRateText.getText());
         Label timeToMaturation = new Label("Time til Maturation: ");
 
+        Integer savingsAccountsCount = 0;
+
         // Font and Padding Styling for Account Details
         calculatorTitle.setStyle(styles.pageHeadText());
         title.setStyle(styles.titleText());
@@ -125,14 +126,16 @@ public class Generator {
 
         details.setSpacing(15);
         details.setPadding(new Insets(15, 0, 0, 40));
-        details.getChildren().addAll(title, initialInvestLabel, investmentGoalLabel, interestRateLabel, timeToMaturation);
+        details.getChildren().addAll(title, initialInvestLabel, investmentGoalLabel,
+                interestRateLabel, timeToMaturation);
 
         calculator.setSpacing(15);
         calculator.setPadding(new Insets(10, 10, 10, 10));
         calculator.setAlignment(Pos.BOTTOM_RIGHT);
 
         // Append each element of the calculator to the calculator VBox
-        calculator.getChildren().addAll(calculatorTitle, initialInvestText, investmentGoalText, interestRateText, yearsText, calculate);
+        calculator.getChildren().addAll(calculatorTitle, initialInvestText, investmentGoalText, interestRateText,
+                yearsText, calculate);
 
         // Initializes Placeholder text for the textfields in the Calculator
         initialInvestText.setPromptText("Initial Investment");
@@ -191,13 +194,22 @@ public class Generator {
 
             // Display the update values in the account details VBox
             initialInvestLabel.setText("Initial Investment: " +
-                    (initialInvestment != "" ? initialInvestment : initialInvestText.getText().isEmpty() ? "" : "$" + initialInvestText.getText()));
+                    (initialInvestment != "" ? initialInvestment : initialInvestText.getText().isEmpty()
+                            ? ""
+                            : "$" +
+                            initialInvestText.getText()));
             investmentGoalLabel.setText("Investment Goal: " +
-                    (investmentGoal != "" ? investmentGoal : investmentGoalText.getText().isEmpty() ? "" : "$" + investmentGoalText.getText()));
+                    (investmentGoal != "" ? investmentGoal : investmentGoalText.getText().isEmpty()
+                            ? ""
+                            : "$" + investmentGoalText.getText()));
             interestRateLabel.setText("Growth Rate: " +
-                    (interestRate != "" ? interestRate : interestRateText.getText().isEmpty() ? "" : interestRateText.getText() + "%"));
+                    (interestRate != "" ? interestRate : interestRateText.getText().isEmpty()
+                            ? ""
+                            : interestRateText.getText() + "%"));
             timeToMaturation.setText("Time til Maturation: " +
-                    (time != "" ? time : yearsText.getText().isEmpty() ? "" : yearsText.getText() + " years"));
+                    (time != "" ? time : yearsText.getText().isEmpty()
+                            ? ""
+                            : yearsText.getText() + " years"));
         });
 
         // Styling for the Account Details VBox
@@ -210,13 +222,30 @@ public class Generator {
         accountsTitle.setFont(new Font("Rockwell", 20));
         accounts.getChildren().add(accountsTitle);
 
+        // Notify the user if there are no available savings accounts assigned to the user
+        if (accountsList.size() == 0) {
+            Label noAccounts = new Label("No Accounts Available");
+            noAccounts.setStyle(styles.labelText());
+            noAccounts.setPadding(new Insets(15));
+            accounts.getChildren().add(noAccounts);
+        }
+
         // Creates a selectable button for each Savings account that the user has
-        for (int i = 0; i < 5; i++) {
-            Button currAccountSelection = new Button("Savings Account 0" + i);
-            currAccountSelection.setFont(new Font("Rockwell", 16));
-            currAccountSelection.setStyle("-fx-min-width: 150; -fx-min-height: 50;");
-            currAccountSelection.setStyle(styles.savingsButton());
-            accounts.getChildren().add(currAccountSelection);
+        for (int i = 0; i < accountsList.size(); i++) {
+            if (accountsList.get(i).getAccountType() == "Savings" && savingsAccountsCount < 8) {
+                Button currAccountSelection = new Button(accountsList.get(i).getAccountName());
+                currAccountSelection.setStyle(styles.savingsButton());
+                accounts.getChildren().add(currAccountSelection);
+                savingsAccountsCount += 1;
+
+                int index = i;
+                currAccountSelection.setOnMouseClicked(e -> {
+                    initialInvestText.setText(Double.toString(accountsList.get(index).getCurrentBalance()));
+                    investmentGoalText.setText(Double.toString(accountsList.get(index).getInvestmentGoal()));
+                    interestRateText.setText(Double.toString(accountsList.get(index).getGrowthRate()));
+                    yearsText.setText(Double.toString(accountsList.get(index).getTimeToMaturation()));
+                });
+            }
         }
 
         // Combines all header items to the main header HBox
@@ -323,7 +352,7 @@ public class Generator {
         accountsVBox.setMinHeight(accountsList.size() * 350);
 
         // Styling for scroll pane
-        accounts.setStyle("-fx-background: #D8DEF1; -fx-background-color: #D8DEF1");
+        accounts.setStyle(styles.accountsList());
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         vBox.getChildren().set(2, accounts);
