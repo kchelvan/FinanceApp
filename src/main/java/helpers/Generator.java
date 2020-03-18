@@ -19,9 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
-import main.java.helpers.styles.Styling;
-import helpers.Account;
 import javafx.stage.Stage;
+import main.java.helpers.styles.Styling;
 
 import java.util.ArrayList;
 
