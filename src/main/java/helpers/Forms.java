@@ -34,7 +34,7 @@ public class Forms {
         selection.setHgap(5);
 
         Label title = new Label("Open Account");
-        Label accountTypeLabel = new Label("Account Type");
+        Label accountTypeLabel = new Label("Account Type*");
         Label accountNameLabel = new Label("Account Name");
 
         ComboBox<String> accountTypeSelect = new ComboBox<>(FXCollections.observableArrayList(accountTypes));
@@ -65,16 +65,24 @@ public class Forms {
         selection.setStyle("-fx-background-color: #B8BEDD");
 
         // Closes the form once the Open Account button is selected
-        openAccountButton.setOnMouseClicked(e ->{
-            account.addAccount(accountTypeSelect.getValue(), accountName.getText());
-            account.setAccountNumber(index);
-            accountsList.add(account);
-            account.setTimeToMaturation();
-            // Clears "No Accounts Header" if accounts exist
-            if (emptyAccount) { accountsVBox.getChildren().set(0, generate.generateAccount(account)); }
-            else { accountsVBox.getChildren().add(generate.generateAccount(account)); }
-            generate.updateList(accountsList, primaryStage, vBox);
-            form.close();
+        openAccountButton.setOnMouseClicked(e -> {
+            if (accountTypeSelect.getValue() != null)
+            {
+                // Assigns default value to account name
+                if (accountName.getText().isEmpty()) {
+                    accountName.setText(accountTypeSelect.getValue() + " Account");
+                }
+                account.addAccount(accountTypeSelect.getValue(), accountName.getText());
+                account.setAccountNumber(index);
+                accountsList.add(account);
+                account.setTimeToMaturation();
+                // Clears "No Accounts Header" if accounts exist
+                if (emptyAccount) { accountsVBox.getChildren().set(0, generate.generateAccount(account)); }
+                else { accountsVBox.getChildren().add(generate.generateAccount(account)); }
+                // Updates and closes form with form values
+                generate.updateList(accountsList, primaryStage, vBox);
+                form.close();
+            }
         });
 
         // Displays the Transfer Form to the user
@@ -84,7 +92,8 @@ public class Forms {
         return index + 1;
     }
 
-    public void depositWithdrawForm(String type, ArrayList<Account> accountsList, VBox accountsVBox) {
+    public void depositWithdrawForm(String type, ArrayList<Account> accountsList, VBox accountsVBox,
+                                    Stage primaryStage, VBox vBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -139,6 +148,7 @@ public class Forms {
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
             }
+            generate.updateList(accountsList, primaryStage, vBox);
             form.close();
         });
 

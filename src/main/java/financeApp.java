@@ -85,7 +85,7 @@ public class financeApp extends Application {
         // Allows the user to scroll through the available accounts
         accounts.setContent(accountsVBox);
         // Styling for scroll pane
-        accounts.setStyle("-fx-background: #D8DEF1; -fx-background-color: #D8DEF1");
+        accounts.setStyle(styles.accountsList());
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         vBox.getChildren().addAll(menuBar, navigation, accounts , footer);
 
@@ -151,9 +151,9 @@ public class financeApp extends Application {
             index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
         });
         footer.getChildren().get(1).setOnMouseClicked(e ->
-                forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
+                forms.depositWithdrawForm("Deposit", accountsList, accountsVBox, primaryStage, vBox));
         footer.getChildren().get(2).setOnMouseClicked(e ->
-                forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));
+                forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox, primaryStage, vBox));
         footer.getChildren().get(3).setOnMouseClicked(e ->
                 forms.transferForm(accountsList, accountsVBox));
 

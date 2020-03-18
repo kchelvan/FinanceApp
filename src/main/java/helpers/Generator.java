@@ -114,6 +114,8 @@ public class Generator {
         Label interestRateLabel = new Label("Growth Rate: " + interestRateText.getText());
         Label timeToMaturation = new Label("Time til Maturation: ");
 
+        Integer savingsAccountsCount = 0;
+
         // Font and Padding Styling for Account Details
         calculatorTitle.setStyle(styles.pageHeadText());
         title.setStyle(styles.titleText());
@@ -220,7 +222,14 @@ public class Generator {
         accountsTitle.setFont(new Font("Rockwell", 20));
         accounts.getChildren().add(accountsTitle);
 
-        Integer savingsAccountsCount = 0;
+        // Notify the user if there are no available savings accounts assigned to the user
+        if (accountsList.size() == 0) {
+            Label noAccounts = new Label("No Accounts Available");
+            noAccounts.setStyle(styles.labelText());
+            noAccounts.setPadding(new Insets(15));
+            accounts.getChildren().add(noAccounts);
+        }
+
         // Creates a selectable button for each Savings account that the user has
         for (int i = 0; i < accountsList.size(); i++) {
             if (accountsList.get(i).getAccountType() == "Savings" && savingsAccountsCount < 8) {
@@ -343,7 +352,7 @@ public class Generator {
         accountsVBox.setMinHeight(accountsList.size() * 350);
 
         // Styling for scroll pane
-        accounts.setStyle("-fx-background: #D8DEF1; -fx-background-color: #D8DEF1");
+        accounts.setStyle(styles.accountsList());
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         vBox.getChildren().set(2, accounts);

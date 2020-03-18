@@ -94,6 +94,12 @@ public class Styling {
                 "-fx-font-family: Rockwell";
     }
 
+    public String accountsList() {
+        return "-fx-background: #D8DEF1;" +
+                "-fx-background-color: #D8DEF1;" +
+                "-fx-min-height: " + (windowSize().get(0) - 220);
+    }
+
     public String pageHeadText() {
         return "-fx-font-size: 40.0; -fx-font-family: Rockwell";
     }
