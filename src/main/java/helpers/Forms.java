@@ -128,6 +128,9 @@ public class Forms {
         // Closes the form once the transfer button is selected
         transfer.setOnMouseClicked(e ->{
             int accIndex = accountNames.indexOf(toSelect.getValue());
+            //TODO Delete
+           // System.out.println(Double.parseDouble(amountSelect.getText()));
+            
             if (type == "Deposit") { accountsList.get(accIndex).deposit(Double.parseDouble(amountSelect.getText())); }
             else { accountsList.get(accIndex).withdraw(Double.parseDouble(amountSelect.getText()));; }
             accountsVBox.getChildren().clear();
