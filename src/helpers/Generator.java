@@ -89,6 +89,7 @@ public class Generator {
         // Returns HBox containing account details
         return account;
     }
+
     public VBox generateInvestmentCalculator() {
         // Variable Declaration
         VBox vBox = new VBox();

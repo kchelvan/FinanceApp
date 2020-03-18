@@ -113,6 +113,7 @@ public class main extends Application {
 
             // Open Form to edit account
             updateAccount(account, primaryStage);
+>>>>>>> branch-B(Account)
         });
 
         accountsVBox.setOnMouseMoved(e -> {
