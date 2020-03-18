@@ -1,4 +1,4 @@
-package helpers;
+package main.java.helpers;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,7 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
-import helpers.styles.Styling;
+import main.java.helpers.styles.Styling;
+import helpers.Account;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;

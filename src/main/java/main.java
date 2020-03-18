@@ -1,3 +1,5 @@
+package main.java;
+
 import helpers.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -5,9 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import helpers.styles.Styling;
-import helpers.Generator;
-import helpers.Forms;
+import main.java.helpers.styles.Styling;
+import main.java.helpers.Generator;
+import main.java.helpers.Forms;
 import java.util.ArrayList;
 
 public class main extends Application {
@@ -142,8 +144,8 @@ public class main extends Application {
             if (accountsList.size() > 0) { emptyAccount = false; }
             index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount);
         });
-        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit"));
-        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw"));
+        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
+        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));
         footer.getChildren().get(3).setOnMouseClicked(e -> forms.transferForm(accountsList, accountsVBox));
 
         // Displays the main stage to the user

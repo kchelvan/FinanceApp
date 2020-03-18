@@ -1,5 +1,7 @@
 package helpers;
 
+import java.util.Random;
+
 public class Account {
 
     protected String accountType = "";
@@ -20,6 +22,7 @@ public class Account {
         currentBalance = cB;
         investmentGoal = iG;
         accountNumber = aNum;
+        growthRate = generateRate();
     }
 
     public void addAccount(String accountType, String accountName) {
@@ -76,5 +79,15 @@ public class Account {
 
     public void deposit(double amount) {this.currentBalance += amount;}
     public void withdraw(double amount) {this.currentBalance -= amount;}
+
+    private static double generateRate(){
+        double start = 1.1;
+        double end = 2.4;
+
+        double random = new Random().nextDouble();
+
+        double result = start + (random * (end - start));
+        return (double) Math.round(result * 100) / 100;
+    }
 
 }

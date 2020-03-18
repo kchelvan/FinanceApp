@@ -1,4 +1,4 @@
-package helpers;
+package main.java.helpers;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -10,7 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import helpers.styles.Styling;
+import main.java.helpers.styles.Styling;
+import helpers.Account;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class Forms {
         return index + 1;
     }
 
-    public void depositWithdrawForm(String type) {
+    public void depositWithdrawForm(String type, ArrayList<Account> accountsList, VBox accountsVBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -92,11 +93,13 @@ public class Forms {
         Label toLabel = new Label();
         Label amountLabel = new Label("AMOUNT");
 
+        List<String> accountNames = accountsList.stream().map(Account::getAccountName).collect(Collectors.toList());
+        ComboBox<String> toSelect = new ComboBox<>(FXCollections.observableList(accountNames));
+
         // Assigns Destination Label depending on form type
         if (type == "Deposit") { toLabel.setText("TO"); }
         else { toLabel.setText("FROM"); }
 
-        ComboBox toSelect = new ComboBox();
         TextField amountSelect = new TextField();
 
         Button transfer = new Button(type.toUpperCase());
@@ -124,12 +127,22 @@ public class Forms {
         selection.setStyle("-fx-background-color: #B8BEDD");
 
         // Closes the form once the transfer button is selected
-        transfer.setOnMouseClicked(e -> form.close());
+        transfer.setOnMouseClicked(e ->{
+            int accIndex = accountNames.indexOf(toSelect.getValue());
+            if (type == "Deposit") { accountsList.get(accIndex).deposit(Double.parseDouble(amountSelect.getText())); }
+            else { accountsList.get(accIndex).withdraw(Double.parseDouble(amountSelect.getText()));; }
+            accountsVBox.getChildren().clear();
+            for(Account tempAcc:accountsList) {
+                accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
+            }
+            form.close();
+        });
 
         // Displays the Transfer Form to the user
         form.setScene(new Scene(selection, 350, 350));
         form.show();
     }
+
     public void transferForm(ArrayList<Account> accountsList, VBox accountsVBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
@@ -142,7 +155,6 @@ public class Forms {
         Label amountLabel = new Label("AMOUNT");
 
         List<String> accountNames = accountsList.stream().map(Account::getAccountName).collect(Collectors.toList());
-        System.out.println(accountNames); //TODO Remove PrintLns
 
         ComboBox<String> toSelect = new ComboBox<>(FXCollections.observableList(accountNames));
         ComboBox<String> fromSelect = new ComboBox<>(FXCollections.observableList(accountNames));
