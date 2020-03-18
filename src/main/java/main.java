@@ -1,15 +1,20 @@
 package main.java;
 
-import helpers.Account;
+import main.java.helpers.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.java.helpers.styles.Styling;
-import main.java.helpers.Generator;
 import main.java.helpers.Forms;
+import main.java.helpers.Generator;
+import main.java.helpers.styles.Styling;
+
 import java.util.ArrayList;
 
 public class main extends Application {

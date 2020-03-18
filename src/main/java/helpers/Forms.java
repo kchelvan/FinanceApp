@@ -11,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.java.helpers.styles.Styling;
-import helpers.Account;
 
 import java.util.ArrayList;
 import java.util.List;
