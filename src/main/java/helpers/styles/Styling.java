@@ -67,6 +67,11 @@ public class Styling {
                 "-fx-max-width: 175;" +
                 "-fx-min-height: 35";
     }
+    public String selectLoginForm() {
+        return "-fx-padding: 5 10 5 10;" +
+                "-fx-max-width: 175;" +
+                "-fx-min-height: 35";
+    }
 
     public String buttonForm() {
         return "-fx-min-height: 35; " +
@@ -98,6 +103,13 @@ public class Styling {
         return "-fx-background: #D8DEF1;" +
                 "-fx-background-color: #D8DEF1;" +
                 "-fx-min-height: " + (windowSize().get(0) - 220);
+    }
+
+    public String loginPane() {
+        return  "-fx-background: #D8DEF1;" +
+                "-fx-background-color: #D8DEF1;" +
+                "-fx-min-height: " + (windowSize().get(0)) +
+                "; -fx-alignment: center";
     }
 
     public String pageHeadText() {

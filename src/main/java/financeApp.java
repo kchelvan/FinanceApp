@@ -1,13 +1,11 @@
 package main.java;
 
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import main.java.helpers.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -46,6 +44,54 @@ public class financeApp extends Application {
         HBox footer = generate.generateFooter();
         ScrollPane accounts = new ScrollPane();
 
+        // Variable Declaration for Login Form Values
+        GridPane loginPane = new GridPane();
+
+        Label nameLabel = new Label("Full Name");
+        Label usernameLabel = new Label("Username");
+        Label passwordLabel = new Label("Password");
+        Label emailLabel = new Label("E-Mail");
+
+        TextField nameText = new TextField();
+        TextField usernameText = new TextField();
+        TextField passwordText = new TextField();
+        TextField emailText = new TextField();
+
+        Button login = new Button("Login");
+        Button signup = new Button("Sign Up");
+
+        // Styling for Login Form Elements
+        login.setStyle(styles.buttonForm());
+        signup.setStyle(styles.buttonForm());
+
+        nameLabel.setStyle(styles.labelForm());
+        usernameLabel.setStyle(styles.labelForm());
+        passwordLabel.setStyle(styles.labelForm());
+        emailLabel.setStyle(styles.labelForm());
+
+        nameText.setStyle(styles.selectLoginForm());
+        usernameText.setStyle(styles.selectLoginForm());
+        passwordText.setStyle(styles.selectLoginForm());
+        emailText.setStyle(styles.selectLoginForm());
+
+        loginPane.setHgap(15);
+
+        loginPane.setStyle(styles.loginPane());
+
+        loginPane.setPadding(new Insets(0, 0, 300, 0));
+
+        // Adds each form item to the main gridpane
+        loginPane.add(nameLabel, 0, 0);
+        loginPane.add(nameText, 1, 0);
+        loginPane.add(usernameLabel, 0, 1);
+        loginPane.add(usernameText, 1, 1);
+        loginPane.add(passwordLabel, 0, 2);
+        loginPane.add(passwordText, 1, 2);
+        loginPane.add(emailLabel, 0, 3);
+        loginPane.add(emailText, 1, 3);
+        loginPane.add(login, 0, 4);
+        loginPane.add(signup, 1, 4);
+
         // Menu Bar Functionality
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
@@ -60,6 +106,17 @@ public class financeApp extends Application {
         // Add a File and Exit button to the Menu Bar
         menuFile.getItems().addAll(exitFile);
         menuBar.getMenus().addAll(menuFile);
+
+        // Event Handlers for Login Buttons
+        login.setOnMouseClicked(e -> {
+            // Shows the main home page if user is logged in
+            vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
+        });
+
+        signup.setOnMouseClicked(e -> {
+            // Shows the main home page if user is logged in
+            vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
+        });
 
         if (accountsList.size() == 0) {
             Label noAccounts = new Label("No Accounts Available");
@@ -87,7 +144,9 @@ public class financeApp extends Application {
         // Styling for scroll pane
         accounts.setStyle(styles.accountsList());
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        vBox.getChildren().addAll(menuBar, navigation, accounts , footer);
+
+        // Shows the login page if the user is not logged in yet
+        vBox.getChildren().setAll(menuBar, loginPane);
 
         // Allows switching between the two navigation tabs
         navigation.getChildren().get(0).setOnMouseClicked(e -> {
