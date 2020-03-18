@@ -1,12 +1,12 @@
-package helpers.styles;
+package main.java.helpers.styles;
 
 import java.util.ArrayList;
 
 // Styles used in the program
 public class Styling {
-    public ArrayList windowSize() {
+    public ArrayList<Integer> windowSize() {
         // Variable Declaration
-        ArrayList window = new ArrayList();
+        ArrayList<Integer> window = new ArrayList<Integer>();
         Integer windowWidth = 1024;
         Integer windowHeight = 900; //TODO Changed Because my screen can't display fit
 
@@ -34,7 +34,8 @@ public class Styling {
                 "-fx-background-color: #B8BEDD;" +
                 "-fx-border-width: 1;" +
                 "-fx-font-weight: bold;" +
-                "-fx-font-family: Rockwell";
+                "-fx-font-family: Rockwell;" +
+                "-fx-pref-width: 200;";
     }
 
     public String footerButton() {

@@ -1,3 +1,5 @@
+package main.java;
+
 import helpers.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -5,9 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import helpers.styles.Styling;
-import helpers.Generator;
-import helpers.Forms;
+import main.java.helpers.styles.Styling;
+import main.java.helpers.Generator;
+import main.java.helpers.Forms;
 import java.util.ArrayList;
 
 public class main extends Application {
@@ -20,8 +22,8 @@ public class main extends Application {
     Integer index = 0; //TODO Not sure how else to alternate between colour schemes while keeping track
     VBox vBox = new VBox();
 
-    Integer windowWidth = (Integer) styles.windowSize().get(0);
-    Integer windowHeight = (Integer) styles.windowSize().get(1);
+    Integer windowWidth = styles.windowSize().get(0);
+    Integer windowHeight = styles.windowSize().get(1);
     boolean emptyAccount = false;
 
     protected ArrayList<Account> accountsList = new ArrayList<>();
@@ -57,7 +59,7 @@ public class main extends Application {
         if (accountsList.size() == 0) {
             Label noAccounts = new Label("No Accounts Available");
             noAccounts.setStyle(styles.labelText());
-            noAccounts.setTranslateX(Double.valueOf((Integer) styles.windowSize().get(0)) / 2.35);
+            noAccounts.setTranslateX(Double.valueOf(styles.windowSize().get(0)) / 2.35);
             noAccounts.setPadding(new Insets(15));
             accountsVBox.getChildren().add(noAccounts);
             emptyAccount = true;
@@ -82,9 +84,6 @@ public class main extends Application {
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         vBox.getChildren().addAll(menuBar, navigation, accounts , footer);
 
-        // Creates an instance of the investment calculator
-        VBox investmentCalculator = generate.generateInvestmentCalculator();
-
         // Allows switching between the two navigation tabs
         navigation.getChildren().get(0).setOnMouseClicked(e -> {
             if (page != 0) {
@@ -98,6 +97,8 @@ public class main extends Application {
         });
         navigation.getChildren().get(1).setOnMouseClicked(e -> {
             if (page != 1) {
+                // Creates an instance of the investment calculator
+                VBox investmentCalculator = generate.generateInvestmentCalculator(accountsList);
                 vBox.getChildren().set(2, investmentCalculator);
                 vBox.getChildren().remove(3);
                 // Styling for the Navigation tab
@@ -141,7 +142,7 @@ public class main extends Application {
         // Event Handlers for the footer buttons
         footer.getChildren().get(0).setOnMouseClicked(e -> {
             if (accountsList.size() > 0) { emptyAccount = false; }
-            index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, vBox, primaryStage);
+            index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount);
         });
         footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
         footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));

@@ -1,4 +1,4 @@
-package helpers;
+package main.java.helpers;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -10,7 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import helpers.styles.Styling;
+import main.java.helpers.styles.Styling;
+import helpers.Account;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Forms {
     Styling styles = new Styling();
     Generator generate = new Generator();
 
-    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox, boolean emptyAccount, VBox mainVBox, Stage primaryStage) {
+    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox, boolean emptyAccount) {
         // Variable Declaration
         String[] accountTypes = {"Savings", "Checking"};
         Account account = new Account();

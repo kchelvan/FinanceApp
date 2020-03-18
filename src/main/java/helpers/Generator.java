@@ -1,4 +1,4 @@
-package helpers;
+package main.java.helpers;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,7 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
-import helpers.styles.Styling;
+import main.java.helpers.styles.Styling;
+import helpers.Account;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Generator {
     // Global Variable Declaration
     Styling styles = new Styling();
     Stage form =  new Stage();
-    Integer windowWidth = (Integer) styles.windowSize().get(0);
+    Integer windowWidth = styles.windowSize().get(0);
 
     public HBox generateAccount(Account ac){
         // Variable Declaration
@@ -93,8 +94,7 @@ public class Generator {
         // Returns HBox containing account details
         return account;
     }
-
-    public VBox generateInvestmentCalculator() {
+    public VBox generateInvestmentCalculator(ArrayList<Account> accountsList) {
         // Variable Declaration
         VBox vBox = new VBox();
         VBox calculator = new VBox();
@@ -210,13 +210,23 @@ public class Generator {
         accountsTitle.setFont(new Font("Rockwell", 20));
         accounts.getChildren().add(accountsTitle);
 
+        Integer savingsAccountsCount = 0;
         // Creates a selectable button for each Savings account that the user has
-        for (int i = 0; i < 5; i++) {
-            Button currAccountSelection = new Button("Savings Account 0" + i);
-            currAccountSelection.setFont(new Font("Rockwell", 16));
-            currAccountSelection.setStyle("-fx-min-width: 150; -fx-min-height: 50;");
-            currAccountSelection.setStyle(styles.savingsButton());
-            accounts.getChildren().add(currAccountSelection);
+        for (int i = 0; i < accountsList.size(); i++) {
+            if (accountsList.get(i).getAccountType() == "Savings" && savingsAccountsCount < 8) {
+                Button currAccountSelection = new Button(accountsList.get(i).getAccountName());
+                currAccountSelection.setStyle(styles.savingsButton());
+                accounts.getChildren().add(currAccountSelection);
+                savingsAccountsCount += 1;
+
+                int index = i;
+                currAccountSelection.setOnMouseClicked(e -> {
+                    initialInvestText.setText(Double.toString(accountsList.get(index).getCurrentBalance()));
+                    investmentGoalText.setText(Double.toString(accountsList.get(index).getInvestmentGoal()));
+                    interestRateText.setText(Double.toString(accountsList.get(index).getGrowthRate()));
+                    yearsText.setText(Double.toString(accountsList.get(index).getTimeToMaturation()));
+                });
+            }
         }
 
         // Combines all header items to the main header HBox
