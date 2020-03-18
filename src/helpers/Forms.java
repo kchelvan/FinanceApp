@@ -21,11 +21,11 @@ public class Forms {
     Stage form =  new Stage();
     Styling styles = new Styling();
     Generator generate = new Generator();
-    Account account = new Account();
 
-    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox) {
+    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox, boolean emptyAccount, VBox mainVBox, Stage primaryStage) {
         // Variable Declaration
         String[] accountTypes = {"Savings", "Checking"};
+        Account account = new Account();
         final Integer index = pIndex;
 
         GridPane selection = new GridPane();
@@ -68,7 +68,10 @@ public class Forms {
             account.addAccount(accountTypeSelect.getValue(), accountName.getText());
             account.setAccountNumber(index);
             accountsList.add(account);
-            accountsVBox.getChildren().add(generate.generateAccount(account));
+            account.setTimeToMaturation();
+            // Clears "No Accounts Header" if accounts exist
+            if (emptyAccount) { accountsVBox.getChildren().set(0, generate.generateAccount(account)); }
+            else { accountsVBox.getChildren().add(generate.generateAccount(account)); }
             form.close();
         });
 
@@ -190,6 +193,9 @@ public class Forms {
             int fromIndex = accountNames.indexOf(fromSelect.getValue());
             accountsList.get(fromIndex).withdraw(Double.parseDouble(amountSelect.getText()));
             accountsList.get(toIndex).deposit(Double.parseDouble(amountSelect.getText()));
+            System.out.println(toIndex + " " + fromIndex); //TODO Remove PrintLns
+            System.out.println(accountsList.get(fromIndex).getCurrentBalance()); //TODO Remove PrintLns
+            System.out.println(accountsList.get(toIndex).getCurrentBalance()); //TODO Remove PrintLns
 
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {
