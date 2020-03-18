@@ -22,7 +22,7 @@ public class Forms {
     Styling styles = new Styling();
     Generator generate = new Generator();
 
-    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox, boolean emptyAccount, VBox mainVBox, Stage primaryStage) {
+    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox, boolean emptyAccount) {
         // Variable Declaration
         String[] accountTypes = {"Savings", "Checking"};
         Account account = new Account();
