@@ -14,6 +14,7 @@ public class Account {
 
     //Default Constructor
     public Account() {
+        growthRate = generateRate();
     }
 
     public Account(String aT, String aN, double cB, double iG, int aNum){
