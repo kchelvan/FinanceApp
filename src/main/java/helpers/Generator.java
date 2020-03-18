@@ -124,14 +124,16 @@ public class Generator {
 
         details.setSpacing(15);
         details.setPadding(new Insets(15, 0, 0, 40));
-        details.getChildren().addAll(title, initialInvestLabel, investmentGoalLabel, interestRateLabel, timeToMaturation);
+        details.getChildren().addAll(title, initialInvestLabel, investmentGoalLabel,
+                interestRateLabel, timeToMaturation);
 
         calculator.setSpacing(15);
         calculator.setPadding(new Insets(10, 10, 10, 10));
         calculator.setAlignment(Pos.BOTTOM_RIGHT);
 
         // Append each element of the calculator to the calculator VBox
-        calculator.getChildren().addAll(calculatorTitle, initialInvestText, investmentGoalText, interestRateText, yearsText, calculate);
+        calculator.getChildren().addAll(calculatorTitle, initialInvestText, investmentGoalText, interestRateText,
+                yearsText, calculate);
 
         // Initializes Placeholder text for the textfields in the Calculator
         initialInvestText.setPromptText("Initial Investment");
@@ -190,13 +192,22 @@ public class Generator {
 
             // Display the update values in the account details VBox
             initialInvestLabel.setText("Initial Investment: " +
-                    (initialInvestment != "" ? initialInvestment : initialInvestText.getText().isEmpty() ? "" : "$" + initialInvestText.getText()));
+                    (initialInvestment != "" ? initialInvestment : initialInvestText.getText().isEmpty()
+                            ? ""
+                            : "$" +
+                            initialInvestText.getText()));
             investmentGoalLabel.setText("Investment Goal: " +
-                    (investmentGoal != "" ? investmentGoal : investmentGoalText.getText().isEmpty() ? "" : "$" + investmentGoalText.getText()));
+                    (investmentGoal != "" ? investmentGoal : investmentGoalText.getText().isEmpty()
+                            ? ""
+                            : "$" + investmentGoalText.getText()));
             interestRateLabel.setText("Growth Rate: " +
-                    (interestRate != "" ? interestRate : interestRateText.getText().isEmpty() ? "" : interestRateText.getText() + "%"));
+                    (interestRate != "" ? interestRate : interestRateText.getText().isEmpty()
+                            ? ""
+                            : interestRateText.getText() + "%"));
             timeToMaturation.setText("Time til Maturation: " +
-                    (time != "" ? time : yearsText.getText().isEmpty() ? "" : yearsText.getText() + " years"));
+                    (time != "" ? time : yearsText.getText().isEmpty()
+                            ? ""
+                            : yearsText.getText() + " years"));
         });
 
         // Styling for the Account Details VBox

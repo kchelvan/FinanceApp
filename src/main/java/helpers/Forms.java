@@ -22,7 +22,8 @@ public class Forms {
     Styling styles = new Styling();
     Generator generate = new Generator();
 
-    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList, VBox accountsVBox, boolean emptyAccount) {
+    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList,
+                                   VBox accountsVBox, boolean emptyAccount, Stage primaryStage, VBox vBox) {
         // Variable Declaration
         String[] accountTypes = {"Savings", "Checking"};
         Account account = new Account();
@@ -72,6 +73,7 @@ public class Forms {
             // Clears "No Accounts Header" if accounts exist
             if (emptyAccount) { accountsVBox.getChildren().set(0, generate.generateAccount(account)); }
             else { accountsVBox.getChildren().add(generate.generateAccount(account)); }
+            generate.updateList(accountsList, primaryStage, vBox);
             form.close();
         });
 

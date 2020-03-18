@@ -114,7 +114,7 @@ public class financeApp extends Application {
         });
 
         accountsVBox.setOnMouseClicked(e -> {
-            // Variable Declaration1
+            // Variable Declaration
             // Obtains index of selected account
             Integer accountIndex = (int) e.getY() / 350;
             Account account = accountsList.get(accountIndex);
@@ -122,6 +122,7 @@ public class financeApp extends Application {
             // Open Form to edit account
             generate.updateAccount(account, primaryStage, accountsList, vBox);
         });
+
         accountsVBox.setOnMouseMoved(e -> {
             // Variable Declaration
             // Obtains index of selected account
@@ -147,11 +148,14 @@ public class financeApp extends Application {
         // Event Handlers for the footer buttons
         footer.getChildren().get(0).setOnMouseClicked(e -> {
             if (accountsList.size() > 0) { emptyAccount = false; }
-            index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount);
+            index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
         });
-        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
-        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));
-        footer.getChildren().get(3).setOnMouseClicked(e -> forms.transferForm(accountsList, accountsVBox));
+        footer.getChildren().get(1).setOnMouseClicked(e ->
+                forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
+        footer.getChildren().get(2).setOnMouseClicked(e ->
+                forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));
+        footer.getChildren().get(3).setOnMouseClicked(e ->
+                forms.transferForm(accountsList, accountsVBox));
 
         // Displays the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));
