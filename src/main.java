@@ -143,8 +143,8 @@ public class main extends Application {
             if (accountsList.size() > 0) { emptyAccount = false; }
             index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, vBox, primaryStage);
         });
-        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit"));
-        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw"));
+        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm("Deposit", accountsList, accountsVBox));
+        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox));
         footer.getChildren().get(3).setOnMouseClicked(e -> forms.transferForm(accountsList, accountsVBox));
 
         // Displays the main stage to the user
