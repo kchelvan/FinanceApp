@@ -1,4 +1,4 @@
-
+package helpers;
 
 import java.util.Random;
 
@@ -41,7 +41,7 @@ public class Account {
     public String getAccountName() {
         return accountName;
     }
-    public void getAccountName(String accountName) {
+    public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
 
@@ -71,6 +71,11 @@ public class Account {
     }
     public void setAccountNumber(int accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public double getTimeToMaturation() { return timeToMaturation; }
+    public void setTimeToMaturation() {
+        Math.round(((investmentGoal / currentBalance) - 1) / (growthRate/100 * 100.0)/100.0);
     }
 
     public void deposit(double amount) {this.currentBalance += amount;}
