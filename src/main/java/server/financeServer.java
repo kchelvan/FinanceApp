@@ -51,7 +51,7 @@ public class financeServer {
         }
     }
 
-    public void addUser(Socket soc){ // adds a new user and assigns them a thread
+    public void addUser(Socket soc) throws IOException { // adds a new user and assigns them a thread
         financeServerThread newUser = new financeServerThread(soc);
         fst.add(newUser);
         fst.get(connected).start();
