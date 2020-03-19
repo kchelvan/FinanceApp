@@ -5,13 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class financeClient {
+public class financeClient extends Thread{
     private Socket soc;
 
     private DataInputStream fromServer;
     private DataOutputStream toServer;
 
-    public financeClient() throws IOException {
+    public void run(){
         System.out.println("Client starting...");
         do{
             System.out.println("Attempting to connect to server...");
@@ -29,7 +29,11 @@ public class financeClient {
             }
         }while(true);
 
-        fromServer = new DataInputStream(soc.getInputStream());
-        toServer = new DataOutputStream(soc.getOutputStream());
+        try {
+            fromServer = new DataInputStream(soc.getInputStream());
+            toServer = new DataOutputStream(soc.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
