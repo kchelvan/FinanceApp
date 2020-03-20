@@ -218,6 +218,7 @@ public class financeApp extends Application {
 
         // Displays the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 }

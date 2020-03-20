@@ -2,13 +2,19 @@ package main.java.helpers.styles;
 
 import java.util.ArrayList;
 
+import javafx.stage.Screen;
+
 // Styles used in the program
 public class Styling {
     public ArrayList<Integer> windowSize() {
         // Variable Declaration
         ArrayList<Integer> window = new ArrayList<Integer>();
-        Integer windowWidth = 1024;
-        Integer windowHeight = 900; //TODO Changed Because my screen can't display fit
+
+        int windowHeight = (int)Screen.getPrimary().getBounds().getHeight() - 50;
+        int windowWidth = (int)Screen.getPrimary().getBounds().getWidth() - 50;
+        
+        //Integer windowWidth = 1024;
+        //Integer windowHeight = 900; //TODO Changed Because my screen can't display fit
 
         window.add(windowWidth);
         window.add(windowHeight);
