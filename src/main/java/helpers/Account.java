@@ -17,13 +17,13 @@ public class Account {
         growthRate = generateRate();
     }
 
-    public Account(String aT, String aN, double cB, double iG, int aNum){
+    public Account(String aT, String aN, double cB, double iG, int aNum, double rate){
         accountType = aT;
         accountName = aN;
         currentBalance = cB;
         investmentGoal = iG;
         accountNumber = aNum;
-        growthRate = generateRate();
+        growthRate = rate;
     }
 
     public void addAccount(String accountType, String accountName) {

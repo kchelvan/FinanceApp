@@ -1,6 +1,2 @@
-QAA,ASFA,125,215,611,61
-affaf,Afas,15,215
-Awqwe,ASFA,1661,611,6161
-wert,bert,1,Savings,Savings 01,500.0,1500.0,1
-qwerty,oowwa,
-afa,Aasf,16,61,122
+wert,bert,1,Savings,Savings 01,500.0,1500.0,1,1.33
+Alex,123,2,Savings,Savings 01,500.0,1500.0,1,1.33,Checking,Checking 01,500.0,1500.0,2,1.55

@@ -78,7 +78,7 @@ public class financeApp extends Application {
 
         loginPane.setStyle(styles.loginPane());
 
-        loginPane.setPadding(new Insets(0, 0, 300, 0));
+        loginPane.setPadding(new Insets(0, 0, 600, 0));
 
 
         // Adds each form item to the main gridpane

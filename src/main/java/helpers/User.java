@@ -31,15 +31,16 @@ public class User{
         String tempAccountData = splitData[3];
         
         for(int i = 0; i < numAccounts;i++){
-            String[] tempStringArray = tempAccountData.split(",",6);
+            String[] tempStringArray = tempAccountData.split(",",7);
             Account tempAccount = new Account(tempStringArray[0],
                                             tempStringArray[1],
                                             Double.parseDouble(tempStringArray[2]),
                                             Double.parseDouble(tempStringArray[3]),
-                                            Integer.parseInt(tempStringArray[4]));
+                                            Integer.parseInt(tempStringArray[4]),
+                                            Double.parseDouble(tempStringArray[5]));
                                             accountList.add(tempAccount);
-            if(tempStringArray.length > 5){
-                tempAccountData = tempStringArray[5];
+            if(tempStringArray.length > 6){
+                tempAccountData = tempStringArray[6];
             }
         }
     }
