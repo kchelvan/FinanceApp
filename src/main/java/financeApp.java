@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
+import main.java.helpers.TempDatabase;
+import main.java.helpers.User;
 
 import java.util.ArrayList;
 
@@ -117,7 +119,7 @@ public class financeApp extends Application {
             // Shows the main home page if user is logged in
             vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
         });
-
+		/*
         if (accountsList.size() == 0) {
             Label noAccounts = new Label("No Accounts Available");
             noAccounts.setStyle(styles.labelText());
@@ -125,17 +127,30 @@ public class financeApp extends Application {
             noAccounts.setPadding(new Insets(15));
             accountsVBox.getChildren().add(noAccounts);
             emptyAccount = true;
+        }*/
+
+         //TEMP Displays information about each Account open for the user
+        for (int i = 0; i < 2; i++) {
+            Account tempAcc = new Account("Savings", "Savings 0" + i, 500.0,
+                    1500.0, i);
+            index++;
+            accountsList.add(tempAcc);
+            accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
         }
 
-        // TEMP Displays information about each Account open for the user
-//        for (int i = 0; i < 2; i++) {
-//            Account tempAcc = new Account("Savings", "Savings 0" + i, 500.0,
-//                    1500.0, i);
-//            index++;
-//            accountsList.add(tempAcc);
-//            accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
-//        }
-
+        //Testing Database Stuff
+        /*
+        TempDatabase database = new TempDatabase();
+        System.out.println(database.login("Awqwe","ASFA"));
+        System.out.println(database.login("Awqwe","ASFAAA"));
+        System.out.println(database.addUser("qwerty", "oowwa"));
+        
+        User tempUser = new User("wert","bert");
+        tempUser.addAccount(accountsList.get(1));
+        //User tempUser = new User(database.login("wert","bert"));
+        //System.out.println(tempUser.toString());
+        database.saveDatabase(tempUser.toString());
+        */
         // Styling for the VBox containing the different user accounts
         accountsVBox.setMinHeight(accountsList.size() * 350);
 
@@ -218,6 +233,7 @@ public class financeApp extends Application {
 
         // Displays the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 }

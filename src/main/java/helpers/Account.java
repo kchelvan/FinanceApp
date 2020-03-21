@@ -91,4 +91,15 @@ public class Account {
         return (double) Math.round(result * 100) / 100;
     }
 
+    // Converts Account class to CSV
+	public String toString(){
+        String retString = "";
+        retString += accountType + ",";
+        retString += accountName + ",";
+        retString += Double.toString(currentBalance) + ",";
+        retString += Double.toString(investmentGoal) + ",";
+        retString += Integer.toString(accountNumber);
+
+        return retString;
+	}
 }
