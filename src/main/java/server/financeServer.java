@@ -17,6 +17,10 @@ public class financeServer {
         start();
     }
 
+    /**
+     * Starts the server and initializes everything
+     * Waits for clients to connect and assigns them a new thread
+     */
     public void start(){
         System.out.println("Starting server...");
         System.out.println("Creating server socket with port " + port + " ...");
@@ -51,19 +55,33 @@ public class financeServer {
         }
     }
 
+    /**
+     * Assigns a new user a thread
+     *
+     * @param soc The socket the user connects to
+     * @throws IOException
+     */
     public void addUser(Socket soc) throws IOException { // adds a new user and assigns them a thread
-        financeServerThread newUser = new financeServerThread(soc);
+        financeServerThread newUser = new financeServerThread(soc, this);
         fst.add(newUser);
         fst.get(connected).start();
         connected++;
     }
 
+    /**
+     *Removes a user and closes the socket and thread
+     *
+     * @param user The user thread to be closed
+     */
     public void removeUser(financeServerThread user){ // removes a user
         for(int i = 0; i < fst.size(); i++){
             if(fst.get(i) == user){
                 fst.get(i).closeSocket();
                 fst.remove(i);
                 connected--;
+
+                System.out.println("Socket closed");
+                System.out.println("User removed");
             }
         }
     }
