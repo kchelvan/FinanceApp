@@ -124,6 +124,7 @@ public class financeApp extends Application {
         signup.setOnMouseClicked(e -> {
             try { //TODO Forced to have try catch here. Not sure if necessary.
                 client.register(usernameText.getText(), passwordText.getText());
+
                 //TODO Rest of register
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -131,16 +132,6 @@ public class financeApp extends Application {
             vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
         });
 
-         //TEMP Displays information about each Account open for the user
-        /*
-        for (int i = 0; i < 2; i++) {
-            Account tempAcc = new Account("Savings", "Savings 0" + i, 500.0,
-                    1500.0, i);
-            index++;
-            accountsList.add(tempAcc);
-            accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
-        }
-        */
 
         // Styling for the VBox containing the different user accounts
         accountsVBox.setMinHeight(accountsList.size() * 350);
@@ -214,13 +205,36 @@ public class financeApp extends Application {
         footer.getChildren().get(0).setOnMouseClicked(e -> {
             if (accountsList.size() > 0) { emptyAccount = false; }
             index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
+            try {
+                client.save();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
-        footer.getChildren().get(1).setOnMouseClicked(e ->
-                forms.depositWithdrawForm("Deposit", accountsList, accountsVBox, primaryStage, vBox));
-        footer.getChildren().get(2).setOnMouseClicked(e ->
-                forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox, primaryStage, vBox));
-        footer.getChildren().get(3).setOnMouseClicked(e ->
-                forms.transferForm(accountsList, accountsVBox));
+        footer.getChildren().get(1).setOnMouseClicked(e -> {
+                forms.depositWithdrawForm("Deposit", accountsList, accountsVBox, primaryStage, vBox);
+            try {
+                client.save();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        footer.getChildren().get(2).setOnMouseClicked(e ->{
+                forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox, primaryStage, vBox);
+            try {
+                client.save();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        footer.getChildren().get(3).setOnMouseClicked(e ->{
+                forms.transferForm(accountsList, accountsVBox);
+            try {
+                client.save();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         // Displays the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));

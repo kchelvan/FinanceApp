@@ -1,8 +1,6 @@
 package main.java.server;
 
-import main.java.helpers.Account;
 import main.java.helpers.TempDatabase;
-import main.java.helpers.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -91,16 +89,20 @@ public class financeServerThread extends Thread {
     }
 
     /**
-     * Adds a new user based on data from the client
+     * Checks if User already registered
+     * Adds a new user based on data from the client if user not registered
      *
      * @throws IOException
      */
     public void register() throws IOException {
         String username = fromClient.readUTF();
         String password = fromClient.readUTF();
-
-        String res = db.addUser(username, password);
-        toClient.writeUTF(res);
+        if(!db.userExists(username)) {
+            String res = db.addUser(username, password);
+            toClient.writeUTF(res);
+        } else {
+            //TODO Return an error for when false? Not sure how to fill it out
+        }
     }
 
     /**
