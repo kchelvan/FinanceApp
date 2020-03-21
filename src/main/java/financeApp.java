@@ -1,19 +1,17 @@
 package main.java;
 
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import main.java.helpers.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.java.helpers.Account;
 import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
-import main.java.helpers.TempDatabase;
-import main.java.helpers.User;
 
 import java.util.ArrayList;
 
