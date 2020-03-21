@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class financeClient extends Thread{
     private Socket soc;
@@ -117,6 +118,11 @@ public class financeClient extends Thread{
         return "Account added";
     }
 
+    public ArrayList<Account> getAccountList() {
+        return user.getAccountList();
+    }
+
+
     /**
      * Deposits money into the selected account
      *
@@ -126,7 +132,7 @@ public class financeClient extends Thread{
      * @throws IOException
      */
     public String deposit(String accountName, double value) throws IOException {
-        for(Account account : user.accountList){  //TODO Should change this to a getter
+        for(Account account : user.getAccountList()){
             if(account.getAccountName().equals(accountName)){
                 account.deposit(value);
                 System.out.println("Deposited");
@@ -146,7 +152,7 @@ public class financeClient extends Thread{
      * @throws IOException
      */
     public String withdraw(String accountName, double value) throws IOException {
-        for(Account account : user.accountList){
+        for(Account account : user.getAccountList()){
             if(account.getAccountName().equals(accountName)){
                 account.withdraw(value);
                 System.out.println("Withdrew");
@@ -166,10 +172,10 @@ public class financeClient extends Thread{
     public String save() throws IOException {
         toServer.writeUTF("save");
 
-        int size = user.accountList.size();
+        int size = user.getAccountList().size();
         toServer.writeInt(size);
 
-        for(Account accounts : user.accountList) {
+        for(Account accounts : user.getAccountList()) {
             toServer.writeUTF(accounts.toString());
         }
 

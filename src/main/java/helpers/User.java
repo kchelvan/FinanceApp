@@ -8,7 +8,12 @@ public class User{
 
     private String username = "";
     private String password = "";
-    public ArrayList<Account> accountList = new ArrayList<>(); //TODO should probably change to private
+    private ArrayList<Account> accountList = new ArrayList<>();
+
+    // Return account list
+    public ArrayList<Account> getAccountList() {
+        return accountList;
+    }
 
     // Creates user
     public User(String username, String password){
@@ -22,19 +27,20 @@ public class User{
         this.username = splitData[0];
         this.password = splitData[1];
         int numAccounts = Integer.parseInt(splitData[2]);
-        
+
         String tempAccountData = splitData[3];
-        
+
         for(int i = 0; i < numAccounts;i++){
-            String[] tempStringArray = tempAccountData.split(",",6);
+            String[] tempStringArray = tempAccountData.split(",",7);
             Account tempAccount = new Account(tempStringArray[0],
                                             tempStringArray[1],
                                             Double.parseDouble(tempStringArray[2]),
                                             Double.parseDouble(tempStringArray[3]),
-                                            Integer.parseInt(tempStringArray[4]));
+                                            Integer.parseInt(tempStringArray[4]),
+                                            Double.parseDouble(tempStringArray[5]));
                                             accountList.add(tempAccount);
-            if(tempStringArray.length > 5){
-                tempAccountData = tempStringArray[5];
+            if(tempStringArray.length > 6){
+                tempAccountData = tempStringArray[6];
             }
         }
     }
@@ -50,7 +56,7 @@ public class User{
         retString += this.username + ",";
         retString += this.password + ",";
         retString += Integer.toString(accountList.size()) + ",";
-        
+
         for(int i = 0; i < accountList.size(); i++){
             retString += accountList.get(i).toString();
             if(i != accountList.size()-1){
