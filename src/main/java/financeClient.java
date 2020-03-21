@@ -126,7 +126,7 @@ public class financeClient extends Thread{
      * @throws IOException
      */
     public String deposit(String accountName, double value) throws IOException {
-        for(Account account : user.accountList){
+        for(Account account : user.accountList){  //TODO Should change this to a getter
             if(account.getAccountName().equals(accountName)){
                 account.deposit(value);
                 System.out.println("Deposited");

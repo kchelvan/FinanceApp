@@ -8,7 +8,7 @@ public class User{
 
     private String username = "";
     private String password = "";
-    ArrayList<Account> accountList = new ArrayList<>();
+    public ArrayList<Account> accountList = new ArrayList<>(); //TODO should probably change to private
 
     // Creates user
     public User(String username, String password){
