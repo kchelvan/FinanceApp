@@ -1,19 +1,17 @@
 package main.java;
 
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import main.java.helpers.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.java.helpers.Account;
 import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
-import main.java.helpers.TempDatabase;
-import main.java.helpers.User;
 
 import java.util.ArrayList;
 
@@ -49,15 +47,12 @@ public class financeApp extends Application {
         // Variable Declaration for Login Form Values
         GridPane loginPane = new GridPane();
 
-        Label nameLabel = new Label("Full Name");
         Label usernameLabel = new Label("Username");
         Label passwordLabel = new Label("Password");
-        Label emailLabel = new Label("E-Mail");
 
-        TextField nameText = new TextField();
         TextField usernameText = new TextField();
-        TextField passwordText = new TextField();
-        TextField emailText = new TextField();
+        PasswordField passwordText = new PasswordField();
+
 
         Button login = new Button("Login");
         Button signup = new Button("Sign Up");
@@ -66,15 +61,11 @@ public class financeApp extends Application {
         login.setStyle(styles.buttonForm());
         signup.setStyle(styles.buttonForm());
 
-        nameLabel.setStyle(styles.labelForm());
         usernameLabel.setStyle(styles.labelForm());
         passwordLabel.setStyle(styles.labelForm());
-        emailLabel.setStyle(styles.labelForm());
 
-        nameText.setStyle(styles.selectLoginForm());
         usernameText.setStyle(styles.selectLoginForm());
         passwordText.setStyle(styles.selectLoginForm());
-        emailText.setStyle(styles.selectLoginForm());
 
         loginPane.setHgap(15);
 
@@ -82,17 +73,15 @@ public class financeApp extends Application {
 
         loginPane.setPadding(new Insets(0, 0, 300, 0));
 
+
         // Adds each form item to the main gridpane
-        loginPane.add(nameLabel, 0, 0);
-        loginPane.add(nameText, 1, 0);
-        loginPane.add(usernameLabel, 0, 1);
-        loginPane.add(usernameText, 1, 1);
-        loginPane.add(passwordLabel, 0, 2);
-        loginPane.add(passwordText, 1, 2);
-        loginPane.add(emailLabel, 0, 3);
-        loginPane.add(emailText, 1, 3);
-        loginPane.add(login, 0, 4);
-        loginPane.add(signup, 1, 4);
+
+        loginPane.add(usernameLabel, 0, 0);
+        loginPane.add(usernameText, 1, 0);
+        loginPane.add(passwordLabel, 0, 1);
+        loginPane.add(passwordText, 1, 1);
+        loginPane.add(login, 0, 2);
+        loginPane.add(signup, 1, 2);
 
         // Menu Bar Functionality
         MenuBar menuBar = new MenuBar();
