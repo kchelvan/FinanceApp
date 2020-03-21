@@ -8,7 +8,12 @@ public class User{
 
     private String username = "";
     private String password = "";
-    public ArrayList<Account> accountList = new ArrayList<>();
+    private ArrayList<Account> accountList = new ArrayList<>();
+
+    // Return account list
+    public ArrayList<Account> getAccountList() {
+        return accountList;
+    }
 
     // Creates user
     public User(String username, String password){

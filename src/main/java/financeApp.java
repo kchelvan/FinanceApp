@@ -13,6 +13,7 @@ import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class financeApp extends Application {
@@ -32,11 +33,17 @@ public class financeApp extends Application {
     protected ArrayList<Account> accountsList = new ArrayList<>();
 
     public static void main(String[] args) {
+        financeClient client = new financeClient();
+        client.start();
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+        //TODO DELETE stuff below this, Not sure if this is correct way to use financeClient
+        financeClient client = new financeClient();
+        client.start();
+
         // Variable Declaration
         primaryStage.setTitle("Finance Application");
         //VBox accountsVBox = new VBox(); //TODO Needs to be added back
@@ -100,25 +107,32 @@ public class financeApp extends Application {
 
         // Event Handlers for Login Buttons
         login.setOnMouseClicked(e -> {
+            try { //TODO Forced to have try catch here. Not sure if necessary.
+                client.login(usernameText.getText(), passwordText.getText());
+                for(Account account : client.getAccountList()) {
+                    accountsList.add(account);
+                    accountsVBox.getChildren().add(generate.generateAccount(account));
+                }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             // Shows the main home page if user is logged in
             vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
         });
 
         signup.setOnMouseClicked(e -> {
-            // Shows the main home page if user is logged in
+            try { //TODO Forced to have try catch here. Not sure if necessary.
+                client.register(usernameText.getText(), passwordText.getText());
+                //TODO Rest of register
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
         });
-		/*
-        if (accountsList.size() == 0) {
-            Label noAccounts = new Label("No Accounts Available");
-            noAccounts.setStyle(styles.labelText());
-            noAccounts.setTranslateX(Double.valueOf(styles.windowSize().get(0)) / 2.35);
-            noAccounts.setPadding(new Insets(15));
-            accountsVBox.getChildren().add(noAccounts);
-            emptyAccount = true;
-        }*/
 
          //TEMP Displays information about each Account open for the user
+        /*
         for (int i = 0; i < 2; i++) {
             Account tempAcc = new Account("Savings", "Savings 0" + i, 500.0,
                     1500.0, i);
@@ -126,20 +140,8 @@ public class financeApp extends Application {
             accountsList.add(tempAcc);
             accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
         }
-
-        //Testing Database Stuff
-        /*
-        TempDatabase database = new TempDatabase();
-        System.out.println(database.login("Awqwe","ASFA"));
-        System.out.println(database.login("Awqwe","ASFAAA"));
-        System.out.println(database.addUser("qwerty", "oowwa"));
-        
-        User tempUser = new User("wert","bert");
-        tempUser.addAccount(accountsList.get(1));
-        //User tempUser = new User(database.login("wert","bert"));
-        //System.out.println(tempUser.toString());
-        database.saveDatabase(tempUser.toString());
         */
+
         // Styling for the VBox containing the different user accounts
         accountsVBox.setMinHeight(accountsList.size() * 350);
 
