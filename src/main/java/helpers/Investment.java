@@ -12,8 +12,8 @@ public class Investment{
     // Investment goal calculator
     public void investmentFV(double initialInvestment, double growthRate, int years){
         this.initialInvestment = initialInvestment;
-        this.growthRate *= growthRate;
-        this.years *= years;
+        this.growthRate = growthRate;
+        this.years = years;
 
         //this.investmentGoal = initialInvestment * Math.pow((1+growthRate/1200),(double)years*12);
         this.investmentGoal = initialInvestment * Math.pow((1 + growthRate),(double) years);
