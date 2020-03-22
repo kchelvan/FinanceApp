@@ -12,6 +12,8 @@ public class financeServerThread extends Thread {
 
     private Socket soc;
 
+    private boolean alive = true;
+
     private DataInputStream fromClient;
     private DataOutputStream toClient;
 
@@ -44,12 +46,21 @@ public class financeServerThread extends Thread {
         System.out.println("User thread running...");
         System.out.println("Waiting for instructions...");
 
-        while(true){
+        while(alive){
             try {
-                String task = fromClient.readUTF();
-                decideTask(task);
+                if(alive) {
+                    String task = fromClient.readUTF();
+                    decideTask(task);
+                }
+                else{
+                    closeSocket();
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    closeSocket();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
@@ -97,12 +108,9 @@ public class financeServerThread extends Thread {
     public void register() throws IOException {
         String username = fromClient.readUTF();
         String password = fromClient.readUTF();
-        if(!db.userExists(username)) {
-            String res = db.addUser(username, password);
-            toClient.writeUTF(res);
-        } else {
-            //TODO Return an error for when false? Not sure how to fill it out
-        }
+
+        String res = db.addUser(username, password);
+        toClient.writeUTF(res);
     }
 
     /**
@@ -111,11 +119,13 @@ public class financeServerThread extends Thread {
      * @throws IOException
      */
     public void save() throws IOException {
-        int size = fromClient.readInt();
+//        int size = fromClient.readInt();
 
-        for(int i = 0; i < size; i++){
-            db.saveDatabase(fromClient.readUTF());
-        }
+//        for(int i = 0; i < size; i++){
+//            db.saveDatabase(fromClient.readUTF());
+//        }
+
+        db.saveDatabase(fromClient.readUTF());
 
         toClient.writeUTF("Saved");
     }
@@ -123,10 +133,10 @@ public class financeServerThread extends Thread {
     /**
      * Closes the socket
      */
-    public void closeSocket(){
+    public void closeSocket() throws IOException {
         System.out.println("Closing socket...");
+        alive = false;
+        soc.close();
         fs.removeUser(this);
     }
-
-
 }

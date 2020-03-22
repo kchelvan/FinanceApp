@@ -52,10 +52,10 @@ public class TempDatabase{
     // Returns saved user data if username and password match
     public String login(String username, String password){
         if(!userExists(username)){
-            return "Username Not Found !!!";
+            return "ERROR: Username Not Found !!!";
         }
         if(!checkPassword(username, password)){
-            return "Invalid Login";
+            return "ERROR: Invalid Login !!!";
         }
         return username + "," + password + "," + appData.get(username);
     }
@@ -63,15 +63,15 @@ public class TempDatabase{
     // Add user to database
     public String addUser(String username, String password){
         if(userExists(username)){
-            return "User already Exists";
+            return "ERROR: User already Exists";
         }
         userData.put(username,password);
         appData.put(username, "");
-        return "User Added Sucessfully";
+        return "User Added Successfully";
     }
 
     //Updates the database with given data then save files
-    //Data is in account.toString() form
+    //Data is in user.toString() form
     public String saveDatabase(String data){
         String[] tempStringArray = data.split(",",3);
         if(!userExists(tempStringArray[1])){

@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import main.java.financeClient;
 import main.java.helpers.styles.Styling;
 
 import java.util.ArrayList;
@@ -336,7 +337,7 @@ public class Generator {
         return lineChart;
     }
 
-    public ScrollPane updateList(ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
+    public ScrollPane updateList(financeClient client, ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
         // Variable Declaration
         ScrollPane accounts = new ScrollPane();
         VBox accountsVBox = new VBox();
@@ -365,7 +366,7 @@ public class Generator {
             Account account = accountsList.get(accountIndex);
 
             // Open Form to edit account
-            updateAccount(account, primaryStage, accountsList, vBox);
+            updateAccount(client, account, primaryStage, accountsList, vBox);
         });
         accountsVBox.setOnMouseMoved(e -> {
             // Variable Declaration
@@ -393,7 +394,7 @@ public class Generator {
         return accounts;
     }
 
-    public void updateAccount(Account account, Stage primaryStage, ArrayList<Account> accountsList, VBox vBox) {
+    public void updateAccount(financeClient client, Account account, Stage primaryStage, ArrayList<Account> accountsList, VBox vBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -460,8 +461,9 @@ public class Generator {
             account.setAccountName(accountNameText.getText());
             account.setInvestmentGoal(Double.parseDouble(investmentGoalText.getText()));
             account.setGrowthRate(Double.parseDouble(growthRateText.getText()));
-            updateList(accountsList, primaryStage, vBox);
-            // Closes the form once the user submits their changes
+            updateList(client, accountsList, primaryStage, vBox);
+            // Closes the form and saves
+            client.save();
             form.close();
         });
 

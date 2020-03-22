@@ -61,15 +61,20 @@ public class financeClient extends Thread{
         toServer.writeUTF(username);
         toServer.writeUTF(password);
 
+        //TODO Trying flush to fix
+        toServer.flush();
+
         String res = getResult();
+        //TODO Temp catch test
+        if (!res.contains("ERROR:")){
+            setUser(res);
+        }
         /*
         res can be:
         error(Invalid username): "Username Not Found !!!"
         error(wrong password): "Invalid Login"
         success: username + "," + password + "," + appData.get(username)
          */
-        setUser(res);
-
         return res;
     }
 
@@ -87,6 +92,9 @@ public class financeClient extends Thread{
         toServer.writeUTF(username);
         toServer.writeUTF(password);
 
+        //TODO Trying flush to fix
+        toServer.flush();
+
         String res = getResult();
         /*
         res can be:
@@ -94,8 +102,8 @@ public class financeClient extends Thread{
         success: "User Added Sucessfully"
          */
 
-        if(res.equals("User Added Sucessfully")){
-            setUser(res);
+        if(!res.contains("ERROR:")){
+            user = new User(username, password);
         }
         return res;
     }
@@ -169,17 +177,18 @@ public class financeClient extends Thread{
      * @return A success message
      * @throws IOException
      */
-    public String save() throws IOException {
-        toServer.writeUTF("save");
-
-        int size = user.getAccountList().size();
-        toServer.writeInt(size);
-
-        for(Account accounts : user.getAccountList()) {
-            toServer.writeUTF(accounts.toString());
+    public String save()  {
+        String res = "";
+        try {
+            toServer.writeUTF("save");
+            toServer.writeUTF(user.toString());
+            //TODO Trying flush to fix
+            toServer.flush();
+            res = getResult();
+            return res;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        String res = getResult();
         return res;
     }
 
@@ -188,10 +197,13 @@ public class financeClient extends Thread{
      *
      * @throws IOException
      */
-    public void exit() throws IOException {
-        toServer.writeUTF("exit");
-
-        soc.close();
+    public void exit()  {
+        try {
+            toServer.writeUTF("exit");
+            soc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
