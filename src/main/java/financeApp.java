@@ -2,7 +2,9 @@ package main.java;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -10,6 +12,7 @@ import main.java.helpers.Account;
 import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
+import main.java.server.financeServer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,8 +34,23 @@ public class financeApp extends Application {
     protected ArrayList<Account> accountsList = new ArrayList<>();
 
     public static void main(String[] args) {
-        financeClient client = new financeClient();
-        client.start();
+        Thread serverThread = new Thread(new Runnable(){
+            public void run(){
+                new financeServer();
+            }
+
+        });
+        serverThread.setDaemon(true);
+        serverThread.start();
+        Thread clientThread = new Thread(new Runnable(){
+            public void run(){
+                financeClient client = new financeClient();
+                client.start();
+            }
+        });
+
+        clientThread.setDaemon(true);
+        clientThread.start();
         launch(args);
     }
 

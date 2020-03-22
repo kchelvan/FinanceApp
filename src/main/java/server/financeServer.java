@@ -13,7 +13,7 @@ public class financeServer {
     private ArrayList<financeServerThread> fst = new ArrayList<financeServerThread>();
 
     private int connected = 0;
-    financeServer() {
+    public financeServer() {
         start();
     }
 
