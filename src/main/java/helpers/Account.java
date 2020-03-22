@@ -24,6 +24,7 @@ public class Account {
         investmentGoal = iG;
         accountNumber = aNum;
         growthRate = rate;
+        timeToMaturation = Math.round(((investmentGoal / currentBalance) - 1) / (growthRate/100 * 100.0)/100.0);
     }
 
     public void addAccount(String accountType, String accountName) {
@@ -73,6 +74,7 @@ public class Account {
         this.accountNumber = accountNumber;
     }
 
+    //TODO This isn't set properly yet
     public double getTimeToMaturation() { return timeToMaturation; }
     public void setTimeToMaturation() {
         Math.round(((investmentGoal / currentBalance) - 1) / (growthRate/100 * 100.0)/100.0);

@@ -91,7 +91,7 @@ public class financeApp extends Application {
         // Allows switching between the two navigation tabs
         navigation.getChildren().get(0).setOnMouseClicked(e -> {
             if (page != 0) {
-                vBox.getChildren().set(2, generate.updateList(accountsList, primaryStage, vBox));
+                vBox.getChildren().set(2, generate.updateList(client, accountsList, primaryStage, vBox));
                 vBox.getChildren().add(footer);
                 // Styling for the Navigation tab
                 ((HBox) vBox.getChildren().get(1)).getChildren().get(0).setStyle(styles.navDeselcted());
@@ -120,7 +120,7 @@ public class financeApp extends Application {
             Account account = accountsList.get(accountIndex);
 
             // Open Form to edit account
-            generate.updateAccount(account, primaryStage, accountsList, vBox);
+            generate.updateAccount(client, account, primaryStage, accountsList, vBox);
         });
 
         accountsVBox.setOnMouseMoved(e -> {
@@ -148,17 +148,16 @@ public class financeApp extends Application {
         // Event Handlers for the footer buttons
         footer.getChildren().get(0).setOnMouseClicked(e -> {
             if (accountsList.size() > 0) { emptyAccount = false; }
-            index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
+            index = forms.openAccountForm(client, index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
         });
         footer.getChildren().get(1).setOnMouseClicked(e -> {
                 forms.depositWithdrawForm(client,"Deposit", accountsList, accountsVBox, primaryStage, vBox);
-
         });
         footer.getChildren().get(2).setOnMouseClicked(e ->{
                 forms.depositWithdrawForm(client,"Withdraw", accountsList, accountsVBox, primaryStage, vBox);
         });
         footer.getChildren().get(3).setOnMouseClicked(e ->{
-                forms.transferForm(client, accountsList, accountsVBox);
+                forms.transferForm(client, accountsList, accountsVBox, primaryStage, vBox);
         });
 
         // Sets up the main stage to the user

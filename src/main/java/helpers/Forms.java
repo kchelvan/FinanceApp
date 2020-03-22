@@ -65,7 +65,7 @@ public class Forms {
                 }
 
                 // Displays the home page of the app and closes the login form
-                generate.updateList(accountsList, primaryStage, vBox);
+                generate.updateList(client, accountsList, primaryStage, vBox);
                 form.close();
                 primaryStage.show();
 
@@ -96,7 +96,7 @@ public class Forms {
         form.show();
     }
 
-    public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList,
+    public Integer openAccountForm(financeClient client, Integer pIndex, ArrayList<Account> accountsList,
                                    VBox accountsVBox, boolean emptyAccount, Stage primaryStage, VBox vBox) {
         // Variable Declaration
         String[] accountTypes = {"Savings", "Checking"};
@@ -154,7 +154,9 @@ public class Forms {
                 if (emptyAccount) { accountsVBox.getChildren().set(0, generate.generateAccount(account)); }
                 else { accountsVBox.getChildren().add(generate.generateAccount(account)); }
                 // Updates and closes form with form values
-                generate.updateList(accountsList, primaryStage, vBox);
+                generate.updateList(client, accountsList, primaryStage, vBox);
+                client.getUser().addAccount(account);
+                client.save();
                 form.close();
             }
         });
@@ -216,11 +218,12 @@ public class Forms {
 
             if (type == "Deposit") { accountsList.get(accIndex).deposit(Double.parseDouble(amountSelect.getText())); }
             else { accountsList.get(accIndex).withdraw(Double.parseDouble(amountSelect.getText()));; }
+
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
             }
-            generate.updateList(accountsList, primaryStage, vBox);
+            generate.updateList(client, accountsList, primaryStage, vBox);
             client.save();
             form.close();
         });
@@ -230,7 +233,8 @@ public class Forms {
         form.show();
     }
 
-    public void transferForm(financeClient client,ArrayList<Account> accountsList, VBox accountsVBox) {
+    public void transferForm(financeClient client,ArrayList<Account> accountsList, VBox accountsVBox,
+                             Stage primaryStage, VBox vBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -281,14 +285,12 @@ public class Forms {
             int fromIndex = accountNames.indexOf(fromSelect.getValue());
             accountsList.get(fromIndex).withdraw(Double.parseDouble(amountSelect.getText()));
             accountsList.get(toIndex).deposit(Double.parseDouble(amountSelect.getText()));
-            System.out.println(toIndex + " " + fromIndex); //TODO Remove PrintLns
-            System.out.println(accountsList.get(fromIndex).getCurrentBalance()); //TODO Remove PrintLns
-            System.out.println(accountsList.get(toIndex).getCurrentBalance()); //TODO Remove PrintLns
 
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
             }
+            generate.updateList(client, accountsList, primaryStage, vBox);
             client.save();
             form.close();
         });
