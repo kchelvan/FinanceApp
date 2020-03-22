@@ -393,7 +393,7 @@ public class Generator {
         return series;
     }
 
-    public ScrollPane updateList(ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
+    public ScrollPane updateList(financeClient client, ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
         // Variable Declaration
         ScrollPane accounts = new ScrollPane();
         VBox accountsVBox = new VBox();
