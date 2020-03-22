@@ -80,11 +80,16 @@ public class Generator {
         accountDetails.getChildren().addAll(
                 title,
                 name,
-                balance,
-                investmentGoal,
-                growthRate,
-                timeToMaturation
+                balance
         );
+
+        if (accountType.equals("Savings")) {
+            accountDetails.getChildren().addAll(
+                    investmentGoal,
+                    growthRate,
+                    timeToMaturation
+            );
+        }
 
         accountDetails.setSpacing(15);
 
@@ -130,10 +135,12 @@ public class Generator {
         details.setPadding(new Insets(15, 0, 0, 40));
         details.getChildren().addAll(title, initialInvestLabel, investmentGoalLabel,
                 interestRateLabel, timeToMaturation);
+        details.setPrefWidth(windowWidth/3);
 
         calculator.setSpacing(15);
         calculator.setPadding(new Insets(10, 10, 10, 10));
         calculator.setAlignment(Pos.BOTTOM_RIGHT);
+        calculator.setPrefWidth(windowWidth/3);
 
         // Append each element of the calculator to the calculator VBox
         calculator.getChildren().addAll(calculatorTitle, initialInvestText, investmentGoalText, interestRateText,
@@ -152,10 +159,13 @@ public class Generator {
         interestRateText.setStyle("-fx-min-height: 50");
         yearsText.setStyle("-fx-min-height: 50");
         calculate.setStyle(styles.confirmButton());
+        calculate.setPrefWidth(windowWidth/3);
+
+        vBox.setPadding(new Insets(20, 20, 0, 20));
 
         // Generates Line Graph Depicting estimated Growth of Investment
         XYChart<Number, Number> lineGraph = generateGraph();
-        lineGraph.setPadding(new Insets(50, 0, 0, 0));
+        lineGraph.setLegendVisible(false);
 
         // If the user provides three fields in the calculator, calculate the value of the missing field
         // TODO : Check for incorrect input and display error message
@@ -269,6 +279,7 @@ public class Generator {
         Label accountsTitle = new Label("Import Account Details");
         accountsTitle.setFont(new Font("Rockwell", 20));
         accounts.getChildren().add(accountsTitle);
+        accounts.setPrefWidth(windowWidth/3);
 
         // Notify the user if there are no available savings accounts assigned to the user
         if (accountsList.size() == 0) {
@@ -291,7 +302,7 @@ public class Generator {
                     initialInvestText.setText(Double.toString(accountsList.get(index).getCurrentBalance()));
                     investmentGoalText.setText(Double.toString(accountsList.get(index).getInvestmentGoal()));
                     interestRateText.setText(Double.toString(accountsList.get(index).getGrowthRate()));
-                    yearsText.setText(Double.toString(accountsList.get(index).getTimeToMaturation()));
+//                    yearsText.setText(Double.toString(accountsList.get(index).getTimeToMaturation())); //TODO Remove
                 });
             }
         }
@@ -364,7 +375,7 @@ public class Generator {
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Years");
-        yAxis.setLabel("Amount");
+        yAxis.setLabel("Amount ($)");
         LineChart<Number,Number> lineChart = new LineChart<>(xAxis,yAxis);
 
         // Assigns title for the line graph
@@ -492,7 +503,7 @@ public class Generator {
         investmentGoalText.setText(Double.toString(account.getInvestmentGoal()));
         growthRateText.setText(Double.toString(account.getGrowthRate()));
 
-        if (account.getAccountType() != "Savings") {
+        if (!account.getAccountType().equals("Savings")) {
             investmentGoalText.setDisable(true);
             growthRateText.setDisable(true);
         }
