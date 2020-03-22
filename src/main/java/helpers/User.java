@@ -3,8 +3,7 @@ package main.java.helpers;
 import java.util.ArrayList;
 
 public class User{
-    // User Attributes are username, password and an arraylist of accounts
-    // What else is there to add ?
+    // User Attributes are username, password and an arrayList of accounts
 
     private String username = "";
     private String password = "";

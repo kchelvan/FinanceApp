@@ -61,11 +61,9 @@ public class financeClient extends Thread{
         toServer.writeUTF(username);
         toServer.writeUTF(password);
 
-        //TODO Trying flush to fix
         toServer.flush();
 
         String res = getResult();
-        //TODO Temp catch test
         if (!res.contains("ERROR:")){
             setUser(res);
         }
@@ -84,7 +82,7 @@ public class financeClient extends Thread{
      * @param username The inputted username of the new user
      * @param password The inputted password of the new user
      * @return Either a error message or a success message
-     * @throws IOException
+     * @throws IOException IOException Error
      */
     public String register(String username, String password) throws IOException {
         toServer.writeUTF("register");
@@ -92,7 +90,6 @@ public class financeClient extends Thread{
         toServer.writeUTF(username);
         toServer.writeUTF(password);
 
-        //TODO Trying flush to fix
         toServer.flush();
 
         String res = getResult();
@@ -114,7 +111,7 @@ public class financeClient extends Thread{
      * @param accountType The type of account
      * @param accountName The account name
      * @return A success message
-     * @throws IOException
+     * @throws IOException IOException Error
      */
     public String addAccount(String accountType, String accountName) throws IOException {
         Account account = new Account();

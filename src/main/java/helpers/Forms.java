@@ -58,7 +58,7 @@ public class Forms {
 
         // Event Handlers for Login Buttons
         login.setOnMouseClicked(e -> {
-            try { //TODO Forced to have try catch here. Not sure if necessary.
+            try {
                 //TODO Display Error to User. Kind of a band-aid fix. Might want to consider disabling empty inputs
                 String errorMSG = client.login(usernameText.getText(), passwordText.getText());
                 if (errorMSG.contains("ERROR:")){
@@ -94,7 +94,7 @@ public class Forms {
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ArrayIndexOutOfBoundsException ex) {
-
+                ex.printStackTrace();
             }
         });
 
@@ -224,7 +224,7 @@ public class Forms {
             int accIndex = accountNames.indexOf(toSelect.getValue());
 
             if (type == "Deposit") { accountsList.get(accIndex).deposit(Double.parseDouble(amountSelect.getText())); }
-            else { accountsList.get(accIndex).withdraw(Double.parseDouble(amountSelect.getText()));; }
+            else { accountsList.get(accIndex).withdraw(Double.parseDouble(amountSelect.getText())); }
 
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {

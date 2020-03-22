@@ -12,7 +12,6 @@ import main.java.helpers.Account;
 import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
-import main.java.server.financeServer;
 
 import java.util.ArrayList;
 
@@ -22,8 +21,8 @@ public class financeApp extends Application {
     Styling styles = new Styling();
     Generator generate = new Generator();
     Forms forms = new Forms();
-    VBox accountsVBox = new VBox(); //TODO Temporarily moved to global variable, needs to be moved back and used from database?
-    Integer index = 0; //TODO Not sure how else to alternate between colour schemes while keeping track
+    VBox accountsVBox = new VBox();
+    Integer index = 0;
     VBox vBox = new VBox();
 
     Integer windowWidth = styles.windowSize().get(0);
@@ -43,7 +42,6 @@ public class financeApp extends Application {
 
         // Variable Declaration
         primaryStage.setTitle("Finance Application");
-        //VBox accountsVBox = new VBox(); //TODO Needs to be added back
         HBox navigation = generate.generateNavigation();
         HBox footer = generate.generateFooter();
         ScrollPane accounts = new ScrollPane();
@@ -147,15 +145,9 @@ public class financeApp extends Application {
             if (accountsList.size() > 0) { emptyAccount = false; }
             index = forms.openAccountForm(client, index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
         });
-        footer.getChildren().get(1).setOnMouseClicked(e -> {
-                forms.depositWithdrawForm(client,"Deposit", accountsList, accountsVBox, primaryStage, vBox);
-        });
-        footer.getChildren().get(2).setOnMouseClicked(e ->{
-                forms.depositWithdrawForm(client,"Withdraw", accountsList, accountsVBox, primaryStage, vBox);
-        });
-        footer.getChildren().get(3).setOnMouseClicked(e ->{
-                forms.transferForm(client, accountsList, accountsVBox, primaryStage, vBox);
-        });
+        footer.getChildren().get(1).setOnMouseClicked(e -> forms.depositWithdrawForm(client,"Deposit", accountsList, accountsVBox, primaryStage, vBox));
+        footer.getChildren().get(2).setOnMouseClicked(e -> forms.depositWithdrawForm(client,"Withdraw", accountsList, accountsVBox, primaryStage, vBox));
+        footer.getChildren().get(3).setOnMouseClicked(e -> forms.transferForm(client, accountsList, accountsVBox, primaryStage, vBox));
 
         // Sets up the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));
