@@ -175,22 +175,18 @@ public class financeClient extends Thread{
      * @return A success message
      * @throws IOException
      */
-    public String save() throws IOException {
-        toServer.writeUTF("save");
-
-//        int size = user.getAccountList().size();
-//        toServer.writeInt(size);
-//
-//        for(Account accounts : user.getAccountList()) {
-//            toServer.writeUTF(accounts.toString());
-//        }
-
-        toServer.writeUTF(user.toString());
-
-        //TODO Trying flush to fix
-        toServer.flush();
-
-        String res = getResult();
+    public String save()  {
+        String res = "";
+        try {
+            toServer.writeUTF("save");
+            toServer.writeUTF(user.toString());
+            //TODO Trying flush to fix
+            toServer.flush();
+            res = getResult();
+            return res;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return res;
     }
 
@@ -199,10 +195,13 @@ public class financeClient extends Thread{
      *
      * @throws IOException
      */
-    public void exit() throws IOException {
-        toServer.writeUTF("exit");
-
-        soc.close();
+    public void exit()  {
+        try {
+            toServer.writeUTF("exit");
+            soc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -98,7 +98,8 @@ public class Account {
         retString += accountName + ",";
         retString += Double.toString(currentBalance) + ",";
         retString += Double.toString(investmentGoal) + ",";
-        retString += Integer.toString(accountNumber);
+        retString += Integer.toString(accountNumber) + ",";
+        retString += Double.toString(growthRate);
 
         return retString;
 	}

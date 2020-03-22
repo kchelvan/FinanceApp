@@ -221,11 +221,7 @@ public class Forms {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
             }
             generate.updateList(accountsList, primaryStage, vBox);
-            try {
-                client.save();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            client.save();
             form.close();
         });
 
@@ -293,11 +289,7 @@ public class Forms {
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
             }
-            try {
-                client.save();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            client.save();
             form.close();
         });
 

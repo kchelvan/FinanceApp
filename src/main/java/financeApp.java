@@ -69,6 +69,7 @@ public class financeApp extends Application {
         exitFile.setOnAction(e -> {
             menuFile.hide();
             primaryStage.close();
+            client.exit();
         });
 
         // Add a File and Exit button to the Menu Bar
