@@ -172,13 +172,13 @@ public class financeClient extends Thread{
     public String save() throws IOException {
         toServer.writeUTF("save");
 
-        int size = user.getAccountList().size();
-        toServer.writeInt(size);
+        //int size = user.getAccountList().size();
+        //toServer.writeInt(size);
 
-        for(Account accounts : user.getAccountList()) {
-            toServer.writeUTF(accounts.toString());
-        }
-
+        //for(Account accounts : user.getAccountList()) {
+        //    toServer.writeUTF(accounts.toString());
+        //}
+        toServer.writeUTF(user.toString());
         String res = getResult();
         return res;
     }
