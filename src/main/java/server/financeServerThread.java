@@ -48,6 +48,7 @@ public class financeServerThread extends Thread {
             try {
                 String task = fromClient.readUTF();
                 decideTask(task);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

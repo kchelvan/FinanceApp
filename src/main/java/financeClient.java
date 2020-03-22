@@ -61,6 +61,9 @@ public class financeClient extends Thread{
         toServer.writeUTF(username);
         toServer.writeUTF(password);
 
+        //TODO Trying flush to fix
+        toServer.flush();
+
         String res = getResult();
         /*
         res can be:
@@ -86,6 +89,9 @@ public class financeClient extends Thread{
 
         toServer.writeUTF(username);
         toServer.writeUTF(password);
+
+        //TODO Trying flush to fix
+        toServer.flush();
 
         String res = getResult();
         /*
@@ -175,9 +181,14 @@ public class financeClient extends Thread{
         int size = user.getAccountList().size();
         toServer.writeInt(size);
 
+
+
         for(Account accounts : user.getAccountList()) {
             toServer.writeUTF(accounts.toString());
         }
+
+        //TODO Trying flush to fix
+        toServer.flush();
 
         String res = getResult();
         return res;
