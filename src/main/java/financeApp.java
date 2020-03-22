@@ -1,10 +1,8 @@
 package main.java;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -81,7 +79,7 @@ public class financeApp extends Application {
         // Allows switching between the two navigation tabs
         navigation.getChildren().get(0).setOnMouseClicked(e -> {
             if (page != 0) {
-                vBox.getChildren().set(2, accounts);
+                vBox.getChildren().set(2, generate.updateList(accountsList, primaryStage, vBox));
                 vBox.getChildren().add(footer);
                 // Styling for the Navigation tab
                 ((HBox) vBox.getChildren().get(1)).getChildren().get(0).setStyle(styles.navDeselcted());
@@ -91,6 +89,7 @@ public class financeApp extends Application {
         });
         navigation.getChildren().get(1).setOnMouseClicked(e -> {
             if (page != 1) {
+                accountsList = client.getAccountList();
                 // Creates an instance of the investment calculator
                 VBox investmentCalculator = generate.generateInvestmentCalculator(accountsList);
                 vBox.getChildren().set(2, investmentCalculator);

@@ -22,8 +22,6 @@ public class Forms {
     Generator generate = new Generator();
 
     public void loginForm(financeClient client, ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
-        // Variable Declaration for Home page
-
         // Variable Declaration for Login Form Values
         GridPane loginPane = new GridPane();
 
@@ -83,7 +81,6 @@ public class Forms {
                 //TODO Rest of register
 
                 // Displays the home page of the app and closes the login form
-                generate.updateList(accountsList, primaryStage, vBox);
                 form.close();
                 primaryStage.show();
 
