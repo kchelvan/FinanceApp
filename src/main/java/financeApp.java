@@ -32,8 +32,6 @@ public class financeApp extends Application {
     protected ArrayList<Account> accountsList = new ArrayList<>();
 
     public static void main(String[] args) {
-        financeClient client = new financeClient();
-        client.start();
         launch(args);
     }
 
