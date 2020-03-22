@@ -71,7 +71,7 @@ public class TempDatabase{
     }
 
     //Updates the database with given data then save files
-    //Data is in account.toString() form
+    //Data is in user.toString() form
     public String saveDatabase(String data){
         String[] tempStringArray = data.split(",",3);
         if(!userExists(tempStringArray[1])){

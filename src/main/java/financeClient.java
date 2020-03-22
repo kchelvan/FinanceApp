@@ -178,14 +178,14 @@ public class financeClient extends Thread{
     public String save() throws IOException {
         toServer.writeUTF("save");
 
-        int size = user.getAccountList().size();
-        toServer.writeInt(size);
+//        int size = user.getAccountList().size();
+//        toServer.writeInt(size);
+//
+//        for(Account accounts : user.getAccountList()) {
+//            toServer.writeUTF(accounts.toString());
+//        }
 
-
-
-        for(Account accounts : user.getAccountList()) {
-            toServer.writeUTF(accounts.toString());
-        }
+        toServer.writeUTF(user.toString());
 
         //TODO Trying flush to fix
         toServer.flush();

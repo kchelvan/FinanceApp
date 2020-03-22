@@ -2,7 +2,9 @@ package main.java;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -11,7 +13,6 @@ import main.java.helpers.Forms;
 import main.java.helpers.Generator;
 import main.java.helpers.styles.Styling;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class financeApp extends Application {
@@ -147,35 +148,16 @@ public class financeApp extends Application {
         footer.getChildren().get(0).setOnMouseClicked(e -> {
             if (accountsList.size() > 0) { emptyAccount = false; }
             index = forms.openAccountForm(index, accountsList, accountsVBox, emptyAccount, primaryStage, vBox);
-            try {
-                client.save();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         });
         footer.getChildren().get(1).setOnMouseClicked(e -> {
-                forms.depositWithdrawForm("Deposit", accountsList, accountsVBox, primaryStage, vBox);
-            try {
-                client.save();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+                forms.depositWithdrawForm(client,"Deposit", accountsList, accountsVBox, primaryStage, vBox);
+
         });
         footer.getChildren().get(2).setOnMouseClicked(e ->{
-                forms.depositWithdrawForm("Withdraw", accountsList, accountsVBox, primaryStage, vBox);
-            try {
-                client.save();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+                forms.depositWithdrawForm(client,"Withdraw", accountsList, accountsVBox, primaryStage, vBox);
         });
         footer.getChildren().get(3).setOnMouseClicked(e ->{
-                forms.transferForm(accountsList, accountsVBox);
-            try {
-                client.save();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+                forms.transferForm(client, accountsList, accountsVBox);
         });
 
         // Sets up the main stage to the user

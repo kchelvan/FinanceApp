@@ -166,7 +166,7 @@ public class Forms {
         return index + 1;
     }
 
-    public void depositWithdrawForm(String type, ArrayList<Account> accountsList, VBox accountsVBox,
+    public void depositWithdrawForm(financeClient client, String type, ArrayList<Account> accountsList, VBox accountsVBox,
                                     Stage primaryStage, VBox vBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
@@ -221,6 +221,11 @@ public class Forms {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
             }
             generate.updateList(accountsList, primaryStage, vBox);
+            try {
+                client.save();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             form.close();
         });
 
@@ -229,7 +234,7 @@ public class Forms {
         form.show();
     }
 
-    public void transferForm(ArrayList<Account> accountsList, VBox accountsVBox) {
+    public void transferForm(financeClient client,ArrayList<Account> accountsList, VBox accountsVBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -287,6 +292,11 @@ public class Forms {
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
+            }
+            try {
+                client.save();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
             form.close();
         });
