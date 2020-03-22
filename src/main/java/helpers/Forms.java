@@ -1,7 +1,6 @@
 package main.java.helpers;
 
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -43,7 +42,6 @@ public class Forms {
         usernameLabel.setStyle(styles.labelForm());
         passwordLabel.setStyle(styles.labelForm());
         errorLabel.setStyle(styles.labelForm());
-        errorLabel.setPadding(new Insets(0, 0, 0, 50));
 
         usernameText.setStyle(styles.selectLoginForm());
         passwordText.setStyle(styles.selectLoginForm());
