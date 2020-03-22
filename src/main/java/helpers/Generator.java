@@ -234,7 +234,7 @@ public class Generator {
 
         // Creates a selectable button for each Savings account that the user has
         for (int i = 0; i < accountsList.size(); i++) {
-            if (accountsList.get(i).getAccountType() == "Savings" && savingsAccountsCount < 8) {
+            if (accountsList.get(i).getAccountType().equals("Savings") && savingsAccountsCount < 8) {
                 Button currAccountSelection = new Button(accountsList.get(i).getAccountName());
                 currAccountSelection.setStyle(styles.savingsButton());
                 accounts.getChildren().add(currAccountSelection);

@@ -99,7 +99,6 @@ public class financeApp extends Application {
         });
         navigation.getChildren().get(1).setOnMouseClicked(e -> {
             if (page != 1) {
-                accountsList = client.getAccountList();
                 // Creates an instance of the investment calculator
                 VBox investmentCalculator = generate.generateInvestmentCalculator(accountsList);
                 vBox.getChildren().set(2, investmentCalculator);
