@@ -51,45 +51,6 @@ public class financeApp extends Application {
         HBox footer = generate.generateFooter();
         ScrollPane accounts = new ScrollPane();
 
-        // Variable Declaration for Login Form Values
-        GridPane loginPane = new GridPane();
-
-        Label usernameLabel = new Label("Username");
-        Label passwordLabel = new Label("Password");
-
-        TextField usernameText = new TextField();
-        PasswordField passwordText = new PasswordField();
-
-
-        Button login = new Button("Login");
-        Button signup = new Button("Sign Up");
-
-        // Styling for Login Form Elements
-        login.setStyle(styles.buttonForm());
-        signup.setStyle(styles.buttonForm());
-
-        usernameLabel.setStyle(styles.labelForm());
-        passwordLabel.setStyle(styles.labelForm());
-
-        usernameText.setStyle(styles.selectLoginForm());
-        passwordText.setStyle(styles.selectLoginForm());
-
-        loginPane.setHgap(15);
-
-        loginPane.setStyle(styles.loginPane());
-
-        loginPane.setPadding(new Insets(0, 0, 600, 0));
-
-
-        // Adds each form item to the main gridpane
-
-        loginPane.add(usernameLabel, 0, 0);
-        loginPane.add(usernameText, 1, 0);
-        loginPane.add(passwordLabel, 0, 1);
-        loginPane.add(passwordText, 1, 1);
-        loginPane.add(login, 0, 2);
-        loginPane.add(signup, 1, 2);
-
         // Menu Bar Functionality
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
@@ -105,34 +66,6 @@ public class financeApp extends Application {
         menuFile.getItems().addAll(exitFile);
         menuBar.getMenus().addAll(menuFile);
 
-        // Event Handlers for Login Buttons
-        login.setOnMouseClicked(e -> {
-            try { //TODO Forced to have try catch here. Not sure if necessary.
-                client.login(usernameText.getText(), passwordText.getText());
-                for(Account account : client.getAccountList()) {
-                    accountsList.add(account);
-                    accountsVBox.getChildren().add(generate.generateAccount(account));
-                }
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            // Shows the main home page if user is logged in
-            vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
-        });
-
-        signup.setOnMouseClicked(e -> {
-            try { //TODO Forced to have try catch here. Not sure if necessary.
-                client.register(usernameText.getText(), passwordText.getText());
-
-                //TODO Rest of register
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            vBox.getChildren().setAll(menuBar, navigation, accounts , footer);
-        });
-
-
         // Styling for the VBox containing the different user accounts
         accountsVBox.setMinHeight(accountsList.size() * 350);
 
@@ -143,7 +76,7 @@ public class financeApp extends Application {
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         // Shows the login page if the user is not logged in yet
-        vBox.getChildren().setAll(menuBar, loginPane);
+        vBox.getChildren().setAll(menuBar, navigation, accounts, footer);
 
         // Allows switching between the two navigation tabs
         navigation.getChildren().get(0).setOnMouseClicked(e -> {
@@ -236,9 +169,9 @@ public class financeApp extends Application {
             }
         });
 
-        // Displays the main stage to the user
+        // Sets up the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+//        primaryStage.setMaximized(true);
+        forms.loginForm(client, accountsList, primaryStage, vBox);
     }
 }
