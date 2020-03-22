@@ -170,7 +170,7 @@ public class financeApp extends Application {
 
         // Sets up the main stage to the user
         primaryStage.setScene(new Scene(vBox, windowWidth, windowHeight));
-//        primaryStage.setMaximized(true);
+        primaryStage.setMaximized(true);
         forms.loginForm(client, accountsList, primaryStage, vBox);
     }
 }

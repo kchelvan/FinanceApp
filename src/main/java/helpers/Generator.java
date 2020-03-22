@@ -350,7 +350,8 @@ public class Generator {
         accounts.setContent(accountsVBox);
 
         // Styling for the VBox containing the different user accounts
-        accountsVBox.setMinHeight(accountsList.size() * 350);
+//        accountsVBox.setMinHeight(accountsList.size() * 350);
+        accountsVBox.setMaxHeight(500);
 
         // Styling for scroll pane
         accounts.setStyle(styles.accountsList());

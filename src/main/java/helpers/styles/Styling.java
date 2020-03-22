@@ -108,7 +108,7 @@ public class Styling {
     public String accountsList() {
         return "-fx-background: #D8DEF1;" +
                 "-fx-background-color: #D8DEF1;" +
-                "-fx-min-height: " + (windowSize().get(0) - 220);
+                "-fx-min-height: " + (windowSize().get(1) - 68);
     }
 
     public String loginPane() {
