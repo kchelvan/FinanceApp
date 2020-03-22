@@ -113,8 +113,8 @@ public class Generator {
         Label title = new Label("Investment Growth");
         Label initialInvestLabel = new Label("Initial Investment: " + initialInvestText.getText());
         Label investmentGoalLabel = new Label("Investment Goal: " + investmentGoalText.getText() );
-        Label interestRateLabel = new Label("Growth Rate: " + interestRateText.getText());
-        Label timeToMaturation = new Label("Time til Maturation: ");
+        Label interestRateLabel = new Label("Growth Rate %: " + interestRateText.getText());
+        Label timeToMaturation = new Label("Time til Maturation (Years) : ");
 
         Integer savingsAccountsCount = 0;
 
@@ -142,7 +142,7 @@ public class Generator {
         // Initializes Placeholder text for the textfields in the Calculator
         initialInvestText.setPromptText("Initial Investment");
         investmentGoalText.setPromptText("Investment Goal");
-        interestRateText.setPromptText("Growth Rate");
+        interestRateText.setPromptText("Growth Rate %");
         yearsText.setPromptText("Set Year(s)");
         calculate.setText("Calculate");
 
@@ -153,13 +153,34 @@ public class Generator {
         yearsText.setStyle("-fx-min-height: 50");
         calculate.setStyle(styles.confirmButton());
 
+        // Generates Line Graph Depicting estimated Growth of Investment
+        XYChart<Number, Number> lineGraph = generateGraph();
+        lineGraph.setPadding(new Insets(50, 0, 0, 0));
+
         // If the user provides three fields in the calculator, calculate the value of the missing field
+        // TODO : Check for incorrect input and display error message
         calculate.setOnMouseClicked(e -> {
             String initialInvestment = "";
             String investmentGoal = "";
             String interestRate = "";
             String time = "";
 
+            Investment investment = new Investment();
+
+            //TODO : Try to use these error conditions to provide error free UX.
+            //When user provides invalid input
+            if(isValidInput(initialInvestText.getText()) && isValidInput(investmentGoalText.getText()) &&
+               isValidInput(interestRateText.getText()) && isValidInput(yearsText.getText())){
+                   System.out.println("Invalid Input");
+               }
+
+            // When user provides four values
+            if(!initialInvestText.getText().isEmpty() && !investmentGoalText.getText().isEmpty() &&
+               !interestRateText.getText().isEmpty() && !yearsText.getText().isEmpty()){
+                System.out.println("ERROR, Four Values provided");
+            }
+
+            // There should be a way to reduce all this condtions
             if (initialInvestText.getText().isEmpty() &&
                     !investmentGoalText.getText().isEmpty() &&
                     !interestRateText.getText().isEmpty() &&
@@ -167,6 +188,9 @@ public class Generator {
                 initialInvestment = "$" + Math.round(Double.parseDouble(investmentGoalText.getText()) /
                         (1 + (Double.parseDouble(interestRateText.getText()) / 100)
                                 * Double.parseDouble(yearsText.getText()))*100.0) / 100.0;
+                investment.investmentIV(Double.parseDouble(investmentGoalText.getText()),
+                                        Double.parseDouble(interestRateText.getText()),
+                                        Double.parseDouble(yearsText.getText()));
             }
             else if (investmentGoalText.getText().isEmpty() &&
                     !initialInvestText.getText().isEmpty() &&
@@ -175,6 +199,9 @@ public class Generator {
                 investmentGoal = "$" + Math.round(Double.parseDouble(initialInvestText.getText()) *
                         (1 + ((Double.parseDouble(interestRateText.getText()) / 100) *
                                 Double.parseDouble(yearsText.getText())))*100.0 * (100.0/100.0));
+                investment.investmentFV(Double.parseDouble(initialInvestText.getText()),
+                                        Double.parseDouble(interestRateText.getText()),
+                                        Double.parseDouble(yearsText.getText()));
             }
             else if (interestRateText.getText().isEmpty() &&
                     !initialInvestText.getText().isEmpty() &&
@@ -183,6 +210,9 @@ public class Generator {
                 interestRate = Math.round((Double.parseDouble(investmentGoalText.getText()) /
                         Double.parseDouble(initialInvestText.getText())) - 1) /
                         Double.parseDouble(yearsText.getText()) * 100.0 * (100.0/100.0) + "%";
+                investment.investmentGR(Double.parseDouble(initialInvestText.getText()),
+                                        Double.parseDouble(investmentGoalText.getText()),
+                                        Double.parseDouble(yearsText.getText()));
             }
             else if (yearsText.getText().isEmpty() &&
                     !initialInvestText.getText().isEmpty() &&
@@ -192,9 +222,13 @@ public class Generator {
                         ((Double.parseDouble(investmentGoalText.getText()) /
                                 Double.parseDouble(initialInvestText.getText())) - 1) /
                                 (Double.parseDouble(interestRateText.getText())/100 * 100.0)/100.0)) + " years";
+                investment.investmentYears(Double.parseDouble(initialInvestText.getText()),
+                                           Double.parseDouble(investmentGoalText.getText()),
+                                           Double.parseDouble(interestRateText.getText()));
             }
 
             // Display the update values in the account details VBox
+            /*
             initialInvestLabel.setText("Initial Investment: " +
                     (initialInvestment != "" ? initialInvestment : initialInvestText.getText().isEmpty()
                             ? ""
@@ -212,6 +246,18 @@ public class Generator {
                     (time != "" ? time : yearsText.getText().isEmpty()
                             ? ""
                             : yearsText.getText() + " years"));
+            */
+
+            initialInvestLabel.setText("Initial Investment : " + String.format("%.2f",investment.getInitialInvestment()));
+            investmentGoalLabel.setText("Investment Goal : " + String.format("%.2f",investment.getInvestmentGoal()));
+            interestRateLabel.setText("Growth Rate : " + String.format("%.2f",investment.getGrowthRate()));
+            timeToMaturation.setText("Time til Maturations : " + String.format("%.2f",investment.getYears()));
+
+            // This updates the graph but breaks the server stuff somehow.
+            // Issue might be because I am running client and server from same main.
+            lineGraph.getData().clear();
+            lineGraph.getData().add(generateSeries(investment));
+            lineGraph.setVisible(true);
         });
 
         // Styling for the Account Details VBox
@@ -252,10 +298,6 @@ public class Generator {
 
         // Combines all header items to the main header HBox
         header.getChildren().addAll(calculator, details, accounts);
-
-        // Generates Line Graph Depicting estimated Growth of Investment
-        XYChart<Number, Number> lineGraph = generateGraph();
-        lineGraph.setPadding(new Insets(50, 0, 0, 0));
 
         vBox.setStyle("-fx-background-color: #D8DEF1");
         vBox.setPrefHeight(1080.0);
@@ -321,6 +363,8 @@ public class Generator {
         // Variable Declaration
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Years");
+        yAxis.setLabel("Amount");
         LineChart<Number,Number> lineChart = new LineChart<>(xAxis,yAxis);
 
         // Assigns title for the line graph
@@ -328,16 +372,28 @@ public class Generator {
         lineChart.setPrefHeight(650);
 
         // Assigns data points for the line graph depicting the estimated growth using the user's provided values
-        XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < 10; i++) {
-            series.getData().add(new XYChart.Data(i * 1000, i * 1500));
-        }
 
         // Returns a Line Chart Object
+        // Hides the line chart
+        lineChart.setVisible(false);
         return lineChart;
     }
 
-    public ScrollPane updateList(financeClient client, ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
+    // Generates series for the given investment data
+    public XYChart.Series<Number, Number> generateSeries(Investment investment){
+        XYChart.Series<Number, Number> series = new XYChart.Series();
+
+        // Generate data for each year using investment class
+        for(int i = 0; i <= (int)Math.ceil(investment.getYears()) * 2; i++){
+            Investment tempinvestment = new Investment();
+            tempinvestment.investmentFV(investment.getInitialInvestment(),investment.getGrowthRate(),(double)i);
+            series.getData().add(new XYChart.Data(i,tempinvestment.getInvestmentGoal()));
+        }
+
+        return series;
+    }
+
+    public ScrollPane updateList(ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
         // Variable Declaration
         ScrollPane accounts = new ScrollPane();
         VBox accountsVBox = new VBox();
@@ -470,5 +526,17 @@ public class Generator {
         // Displays the Edit Account Form to the user
         form.setScene(new Scene(selection, 450, 450));
         form.show();
+    }
+
+    // Function to check if the input string is double parsable
+    public boolean isValidInput(String input){
+        try {
+            if(!input.isEmpty()){
+                double value = Double.parseDouble(input);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

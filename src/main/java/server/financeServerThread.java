@@ -119,14 +119,13 @@ public class financeServerThread extends Thread {
      * @throws IOException
      */
     public void save() throws IOException {
-//        int size = fromClient.readInt();
+        //int size = fromClient.readInt();
 
-//        for(int i = 0; i < size; i++){
-//            db.saveDatabase(fromClient.readUTF());
-//        }
+        //for(int i = 0; i < size; i++){
+        //    db.saveDatabase(fromClient.readUTF());
+        //}
 
         db.saveDatabase(fromClient.readUTF());
-
         toClient.writeUTF("Saved");
     }
 
