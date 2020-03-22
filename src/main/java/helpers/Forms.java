@@ -27,6 +27,7 @@ public class Forms {
 
         Label usernameLabel = new Label("Username");
         Label passwordLabel = new Label("Password");
+        Label errorLabel = new Label();
 
         TextField usernameText = new TextField();
         PasswordField passwordText = new PasswordField();
@@ -40,6 +41,7 @@ public class Forms {
 
         usernameLabel.setStyle(styles.labelForm());
         passwordLabel.setStyle(styles.labelForm());
+        errorLabel.setStyle(styles.labelForm());
 
         usernameText.setStyle(styles.selectLoginForm());
         passwordText.setStyle(styles.selectLoginForm());
@@ -55,6 +57,7 @@ public class Forms {
         loginPane.add(passwordText, 1, 1);
         loginPane.add(login, 0, 2);
         loginPane.add(signup, 1, 2);
+        loginPane.add(errorLabel, 0, 3, 2, 1);
 
         // Event Handlers for Login Buttons
         login.setOnMouseClicked(e -> {
@@ -62,7 +65,7 @@ public class Forms {
                 //TODO Display Error to User. Kind of a band-aid fix. Might want to consider disabling empty inputs
                 String errorMSG = client.login(usernameText.getText(), passwordText.getText());
                 if (errorMSG.contains("ERROR:")){
-                    //TODO Label update goes here
+                    errorLabel.setText(errorMSG);
                 } else {
                     for(Account account : client.getAccountList()) {
                         accountsList.add(account);
@@ -81,7 +84,7 @@ public class Forms {
             try { //TODO Forced to have try catch here. Not sure if necessary.
                 String errorMSG = client.register(usernameText.getText(), passwordText.getText());
                 if (errorMSG.contains("ERROR:")){
-                    //TODO  Label Update goes here
+                    errorLabel.setText(errorMSG);
                 } else {
                     // Displays the home page of the app and closes the login form
                     client.save();
