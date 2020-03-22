@@ -10,11 +10,8 @@ public class Styling {
         // Variable Declaration
         ArrayList<Integer> window = new ArrayList<Integer>();
 
-        int windowHeight = (int)Screen.getPrimary().getBounds().getHeight() - 50;
-        int windowWidth = (int)Screen.getPrimary().getBounds().getWidth() - 50;
-        
-        //Integer windowWidth = 1024;
-        //Integer windowHeight = 900; //TODO Changed Because my screen can't display fit
+        Integer windowWidth = 1366;
+        Integer windowHeight = 768;
 
         window.add(windowWidth);
         window.add(windowHeight);
@@ -108,7 +105,7 @@ public class Styling {
     public String accountsList() {
         return "-fx-background: #D8DEF1;" +
                 "-fx-background-color: #D8DEF1;" +
-                "-fx-min-height: " + (windowSize().get(1) - 68);
+                "-fx-min-height: " + (windowSize().get(1) - 95);
     }
 
     public String loginPane() {
