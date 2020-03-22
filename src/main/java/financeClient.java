@@ -65,14 +65,16 @@ public class financeClient extends Thread{
         toServer.flush();
 
         String res = getResult();
+        //TODO Temp catch test
+        if (!res.contains("ERROR:")){
+            setUser(res);
+        }
         /*
         res can be:
         error(Invalid username): "Username Not Found !!!"
         error(wrong password): "Invalid Login"
         success: username + "," + password + "," + appData.get(username)
          */
-        setUser(res);
-
         return res;
     }
 
@@ -100,7 +102,7 @@ public class financeClient extends Thread{
         success: "User Added Sucessfully"
          */
 
-        if(res.equals("User Added Sucessfully")){
+        if(!res.contains("ERROR:")){
             setUser(res);
         }
         return res;

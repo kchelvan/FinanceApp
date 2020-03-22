@@ -59,16 +59,19 @@ public class Forms {
         // Event Handlers for Login Buttons
         login.setOnMouseClicked(e -> {
             try { //TODO Forced to have try catch here. Not sure if necessary.
-                client.login(usernameText.getText(), passwordText.getText());
-                for(Account account : client.getAccountList()) {
-                    accountsList.add(account);
+                //TODO Display Error to User. Kind of a band-aid fix. Might want to consider disabling empty inputs
+                String errorMSG = client.login(usernameText.getText(), passwordText.getText());
+                if (errorMSG.contains("ERROR:")){
+                    //TODO Label update goes here
+                } else {
+                    for(Account account : client.getAccountList()) {
+                        accountsList.add(account);
+                    }
+                    // Displays the home page of the app and closes the login form
+                    generate.updateList(client, accountsList, primaryStage, vBox);
+                    form.close();
+                    primaryStage.show();
                 }
-
-                // Displays the home page of the app and closes the login form
-                generate.updateList(client, accountsList, primaryStage, vBox);
-                form.close();
-                primaryStage.show();
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -76,13 +79,17 @@ public class Forms {
 
         signup.setOnMouseClicked(e -> {
             try { //TODO Forced to have try catch here. Not sure if necessary.
-                client.register(usernameText.getText(), passwordText.getText());
+                String errorMSG = client.register(usernameText.getText(), passwordText.getText());
+                if (errorMSG.contains("ERROR:")){
+                    //TODO  Label Update goes here
+                } else {
+                    // Displays the home page of the app and closes the login form
+                    client.save();
+                    generate.updateList(client, accountsList, primaryStage, vBox);
+                    form.close();
+                    primaryStage.show();
+                }
 
-                //TODO Rest of register
-
-                // Displays the home page of the app and closes the login form
-                form.close();
-                primaryStage.show();
 
             } catch (IOException ex) {
                 ex.printStackTrace();

@@ -108,12 +108,9 @@ public class financeServerThread extends Thread {
     public void register() throws IOException {
         String username = fromClient.readUTF();
         String password = fromClient.readUTF();
-        if(!db.userExists(username)) {
-            String res = db.addUser(username, password);
-            toClient.writeUTF(res);
-        } else {
-            //TODO Return an error for when false? Not sure how to fill it out
-        }
+
+        String res = db.addUser(username, password);
+        toClient.writeUTF(res);
     }
 
     /**
