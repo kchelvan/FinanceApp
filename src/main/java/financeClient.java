@@ -103,7 +103,7 @@ public class financeClient extends Thread{
          */
 
         if(!res.contains("ERROR:")){
-            setUser(res);
+            user = new User(username, password);
         }
         return res;
     }
