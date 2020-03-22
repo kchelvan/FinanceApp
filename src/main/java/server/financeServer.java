@@ -3,6 +3,7 @@ package main.java.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 public class financeServer {
@@ -30,6 +31,7 @@ public class financeServer {
         do {
             try {
                 ss = new ServerSocket(port);
+                ss.setSoTimeout(0);
                 ssCreated = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -41,16 +43,27 @@ public class financeServer {
         System.out.println("Server socket created...");
 
         // keep accepting new users
-        while(true) {
-            try {
+        try {
+            while (true) {
                 System.out.println("Waiting for client...");
-                Socket soc = ss.accept();
-                System.out.println("Connection established...");
-                addUser(soc);
-
-            } catch (Exception e) {
+                try {
+                    Socket soc = ss.accept();
+                    System.out.println("Connection established...");
+                    addUser(soc);
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+                    System.out.println("Connection error...");
+                }
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                ss.close();
+            } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Connection error...");
             }
         }
     }
@@ -76,7 +89,6 @@ public class financeServer {
     public void removeUser(financeServerThread user){ // removes a user
         for(int i = 0; i < fst.size(); i++){
             if(fst.get(i) == user){
-                fst.get(i).closeSocket();
                 fst.remove(i);
                 connected--;
 

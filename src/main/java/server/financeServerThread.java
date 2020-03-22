@@ -12,6 +12,8 @@ public class financeServerThread extends Thread {
 
     private Socket soc;
 
+    private boolean alive = true;
+
     private DataInputStream fromClient;
     private DataOutputStream toClient;
 
@@ -44,13 +46,21 @@ public class financeServerThread extends Thread {
         System.out.println("User thread running...");
         System.out.println("Waiting for instructions...");
 
-        while(true){
+        while(alive){
             try {
-                String task = fromClient.readUTF();
-                decideTask(task);
-
+                if(alive) {
+                    String task = fromClient.readUTF();
+                    decideTask(task);
+                }
+                else{
+                    closeSocket();
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    closeSocket();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
@@ -126,10 +136,10 @@ public class financeServerThread extends Thread {
     /**
      * Closes the socket
      */
-    public void closeSocket(){
+    public void closeSocket() throws IOException {
         System.out.println("Closing socket...");
+        alive = false;
+        soc.close();
         fs.removeUser(this);
     }
-
-
 }
