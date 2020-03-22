@@ -52,7 +52,17 @@ public class financeApp extends Application {
         // Menu Bar Functionality
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
+        Menu logoutFile = new Menu("Logout");
         Menu exitFile = new Menu("Exit");
+
+        // Logs the current user out from the main app
+        logoutFile.setOnAction(e -> {
+            System.out.println("CLICKED");
+            accountsList.clear();
+            forms.loginForm(client, accountsList, primaryStage, vBox);
+            primaryStage.close();
+            menuFile.hide();
+        });
 
         // Close main program when the exit button is selected from the Menu Bar
         exitFile.setOnAction(e -> {
@@ -61,7 +71,7 @@ public class financeApp extends Application {
         });
 
         // Add a File and Exit button to the Menu Bar
-        menuFile.getItems().addAll(exitFile);
+        menuFile.getItems().addAll(logoutFile, exitFile);
         menuBar.getMenus().addAll(menuFile);
 
         // Styling for the VBox containing the different user accounts
