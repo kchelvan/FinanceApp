@@ -34,29 +34,11 @@ public class financeApp extends Application {
     protected ArrayList<Account> accountsList = new ArrayList<>();
 
     public static void main(String[] args) {
-        Thread serverThread = new Thread(new Runnable(){
-            public void run(){
-                new financeServer();
-            }
-
-        });
-        serverThread.setDaemon(true);
-        serverThread.start();
-        Thread clientThread = new Thread(new Runnable(){
-            public void run(){
-                financeClient client = new financeClient();
-                client.start();
-            }
-        });
-
-        clientThread.setDaemon(true);
-        clientThread.start();
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        //TODO DELETE stuff below this, Not sure if this is correct way to use financeClient
         financeClient client = new financeClient();
         client.start();
 
