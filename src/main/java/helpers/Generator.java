@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import main.java.helpers.styles.Styling;
 
 import java.util.ArrayList;
@@ -151,6 +152,10 @@ public class Generator {
         yearsText.setStyle("-fx-min-height: 50");
         calculate.setStyle(styles.confirmButton());
 
+        // Generates Line Graph Depicting estimated Growth of Investment
+        XYChart<Number, Number> lineGraph = generateGraph();
+        lineGraph.setPadding(new Insets(50, 0, 0, 0));
+
         // If the user provides three fields in the calculator, calculate the value of the missing field
         // TODO : Check for incorrect input and display error message
         calculate.setOnMouseClicked(e -> {
@@ -238,12 +243,11 @@ public class Generator {
             interestRateLabel.setText("Growth Rate : " + investment.getGrowthRate());
             timeToMaturation.setText("Time til Maturations : " + investment.getYears());
             
-            // This needs to be fixed. Adds new graph everytime
-            XYChart<Number, Number> lineGraph = generateGraph(investment);
-            lineGraph.setPadding(new Insets(50, 0, 0, 0));
-            lineGraph.setId("graph");
-            vBox.getChildren().add(lineGraph);
-
+            // This updates the graph but breaks the server stuff somehow.
+            // Issue might be because I am running client and server from same main.
+            //lineGraph.getData().clear();
+            //lineGraph.getData().add(generateSeries(investment));
+            lineGraph.setVisible(true);
         });
         
         // Styling for the Account Details VBox
@@ -285,13 +289,9 @@ public class Generator {
         // Combines all header items to the main header HBox
         header.getChildren().addAll(calculator, details, accounts);
 
-        // Generates Line Graph Depicting estimated Growth of Investment
-        //XYChart<Number, Number> lineGraph = generateGraph(accountsList);
-        //lineGraph.setPadding(new Insets(50, 0, 0, 0));
-
         vBox.setStyle("-fx-background-color: #D8DEF1");
         vBox.setPrefHeight(1080.0);
-        vBox.getChildren().addAll(header);
+        vBox.getChildren().addAll(header, lineGraph);
 
         return vBox;
     }
@@ -349,7 +349,7 @@ public class Generator {
         return footer;
     }
 
-    public LineChart<Number, Number> generateGraph(Investment investment) {
+    public LineChart<Number, Number> generateGraph() {
         // Variable Declaration
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -362,37 +362,24 @@ public class Generator {
         //lineChart.setPrefHeight(650);
 
         // Assigns data points for the line graph depicting the estimated growth using the user's provided values
-        /*
-        XYChart.Series series = new XYChart.Series();
-
-        double currentAmount = investment.getInitialInvestment();
-        for(int i = 0; i <= investment.getYears() * 2; i++){
-            series.getData().add(new XYChart.Data(i,currentAmount));
-            currentAmount += investment.getInitialInvestment() * investment.getGrowthRate();
-        }
-
-        */
-        XYChart.Series series = generateSeries(investment);
-        lineChart.getData().add(series);
-        /*
-        for (int i = 0; i < 10; i++) {
-            series.getData().add(new XYChart.Data(i * 1000, i * 1500));
-        }
-        */
+        
         // Returns a Line Chart Object
+        // Hides the line chart
+        lineChart.setVisible(false);
         return lineChart;
     }
 
-    public XYChart.Series generateSeries(Investment investment){
-        XYChart.Series series = new XYChart.Series();
+    // Generates series for line chart
+    public XYChart.Series<Number, Number> generateSeries(Investment investment){
+        XYChart.Series<Number, Number> series = new XYChart.Series();
 
-        // I don't think this formula is right
-        // This is just affine transformation
-        double currentAmount = investment.getInitialInvestment();
+        // Generate data for each year using investment class
         for(int i = 0; i <= investment.getYears() * 2; i++){
-            series.getData().add(new XYChart.Data(i,currentAmount));
-            currentAmount += investment.getInitialInvestment() * investment.getGrowthRate();
+            Investment tempinvestment = new Investment();
+            tempinvestment.investmentFV(investment.getInitialInvestment(),investment.getGrowthRate(),i);
+            series.getData().add(new XYChart.Data(i,tempinvestment.getInvestmentGoal()));
         }
+
         return series;
     }
 
