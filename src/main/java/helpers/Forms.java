@@ -3,15 +3,14 @@ package main.java.helpers;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.java.financeClient;
 import main.java.helpers.styles.Styling;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +20,79 @@ public class Forms {
     Stage form =  new Stage();
     Styling styles = new Styling();
     Generator generate = new Generator();
+
+    public void loginForm(financeClient client, ArrayList<Account> accountsList, Stage primaryStage, VBox vBox) {
+        // Variable Declaration for Login Form Values
+        GridPane loginPane = new GridPane();
+
+        Label usernameLabel = new Label("Username");
+        Label passwordLabel = new Label("Password");
+
+        TextField usernameText = new TextField();
+        PasswordField passwordText = new PasswordField();
+
+        Button login = new Button("Login");
+        Button signup = new Button("Sign Up");
+
+        // Styling for Login Form Elements
+        login.setStyle(styles.buttonForm());
+        signup.setStyle(styles.buttonForm());
+
+        usernameLabel.setStyle(styles.labelForm());
+        passwordLabel.setStyle(styles.labelForm());
+
+        usernameText.setStyle(styles.selectLoginForm());
+        passwordText.setStyle(styles.selectLoginForm());
+
+        loginPane.setHgap(15);
+
+        loginPane.setStyle(styles.loginPane());
+
+        // Adds each form item to the main gridpane
+        loginPane.add(usernameLabel, 0, 0);
+        loginPane.add(usernameText, 1, 0);
+        loginPane.add(passwordLabel, 0, 1);
+        loginPane.add(passwordText, 1, 1);
+        loginPane.add(login, 0, 2);
+        loginPane.add(signup, 1, 2);
+
+        // Event Handlers for Login Buttons
+        login.setOnMouseClicked(e -> {
+            try { //TODO Forced to have try catch here. Not sure if necessary.
+                client.login(usernameText.getText(), passwordText.getText());
+                for(Account account : client.getAccountList()) {
+                    accountsList.add(account);
+                }
+
+                // Displays the home page of the app and closes the login form
+                generate.updateList(accountsList, primaryStage, vBox);
+                form.close();
+                primaryStage.show();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        signup.setOnMouseClicked(e -> {
+            try { //TODO Forced to have try catch here. Not sure if necessary.
+                client.register(usernameText.getText(), passwordText.getText());
+
+                //TODO Rest of register
+
+                // Displays the home page of the app and closes the login form
+                form.close();
+                primaryStage.show();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        // Displays the Transfer Form to the user
+        form.setScene(new Scene(loginPane, 400, 300));
+        form.show();
+    }
 
     public Integer openAccountForm(Integer pIndex, ArrayList<Account> accountsList,
                                    VBox accountsVBox, boolean emptyAccount, Stage primaryStage, VBox vBox) {

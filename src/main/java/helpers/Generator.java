@@ -89,6 +89,7 @@ public class Generator {
 
         // Adds the Pie Chart and Account Details to the HBox
         account.getChildren().addAll(accountPie, accountDetails);
+        account.setPrefWidth(windowWidth);
 
         // Returns HBox containing account details
         return account;
