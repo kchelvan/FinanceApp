@@ -41,7 +41,7 @@ public class financeApp extends Application {
         client.start();
 
         // Variable Declaration
-        primaryStage.setTitle("Finance Application");
+        primaryStage.setTitle("My Investments Tracker");
         HBox navigation = generate.generateNavigation();
         HBox footer = generate.generateFooter();
         ScrollPane accounts = new ScrollPane();

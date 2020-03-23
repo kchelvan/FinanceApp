@@ -35,6 +35,8 @@ public class Forms {
         Button login = new Button("Login");
         Button signup = new Button("Sign Up");
 
+        form.setTitle("My Investments Tracker");
+
         // Styling for Login Form Elements
         login.setStyle(styles.buttonForm());
         signup.setStyle(styles.buttonForm());
@@ -127,6 +129,7 @@ public class Forms {
         TextField accountName = new TextField();
 
         Button openAccountButton = new Button("OPEN ACCOUNT");
+        form.setTitle("My Investments Tracker");
 
         // Styling for the Form Elements
         selection.setAlignment(Pos.CENTER);
@@ -201,6 +204,7 @@ public class Forms {
         TextField amountSelect = new TextField();
 
         Button transfer = new Button(type.toUpperCase());
+        form.setTitle("My Investments Tracker");
 
         // Styling for the Form Elements
         selection.setAlignment(Pos.CENTER);
@@ -264,6 +268,7 @@ public class Forms {
         TextField amountSelect = new TextField();
 
         Button transfer = new Button("TRANSFER");
+        form.setTitle("My Investments Tracker");
 
         // Styling for the Form Elements
         selection.setAlignment(Pos.CENTER);
