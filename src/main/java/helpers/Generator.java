@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -44,17 +45,21 @@ public class Generator {
         HBox account = new HBox();
         VBox accountDetails = new VBox();
         Group accountPie = new Group();
-        Canvas canvas = new Canvas(400, 350);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        Canvas pieCanvas = new Canvas(400, 350);
+        Canvas legendCanvas = new Canvas(400, 350);
+        GraphicsContext gc = pieCanvas.getGraphicsContext2D();
+        GraphicsContext lc = legendCanvas.getGraphicsContext2D();
 
         // Generate Pie Chart depicted Account Details
-        accountPie.getChildren().add(canvas);
+        accountPie.getChildren().add(pieCanvas);
 
         double partition = (currentBalance / maxBalance) * 360;
         gc.setFill(Color.web("#A5ACD3", 1.0));
         gc.fillArc(100, 40, 280, 280, 0, 360, ArcType.ROUND);
         gc.setFill(Color.web("#616BA2", 1.0));
         gc.fillArc(100, 40, 280, 280, 0, partition, ArcType.ROUND);
+
+        accountPie.maxWidth(5);
 
         // Variable Declaration for Account Details
         Label title = new Label(accountType + " Account");
@@ -74,7 +79,30 @@ public class Generator {
         growthRate.setStyle(styles.labelText());
         timeToMaturation.setStyle(styles.labelText());
 
-        accountDetails.setPadding(new Insets(75, 150, 0, 250));
+        accountDetails.setPadding(new Insets(75, 75, 0, 200));
+
+        lc.setFill(Paint.valueOf("#616BA2"));
+        lc.fillRect(0, 75, 50, 35);
+        lc.setFont(new Font(15));
+        lc.setFill(Color.BLACK);
+        if (accountType.equals("Savings")) {
+            lc.fillText("Current Balance", 75, 98);
+        }
+        else {
+            lc.fillText("Contains Balance", 75, 98);
+        }
+
+        lc.setFill(Paint.valueOf("#A5ACD3"));
+        lc.fillRect(0, 140, 50, 35);
+        lc.setFont(new Font(15));
+        lc.setFill(Color.BLACK);
+
+        if (accountType.equals("Savings")) {
+            lc.fillText("Remaining Balance", 75, 162);
+        }
+        else {
+            lc.fillText("Empty Account", 75, 162);
+        }
 
         // Generate Table displaying details of Account
         accountDetails.getChildren().addAll(
@@ -92,9 +120,10 @@ public class Generator {
         }
 
         accountDetails.setSpacing(15);
+        accountDetails.setMinWidth(windowWidth/2);
 
         // Adds the Pie Chart and Account Details to the HBox
-        account.getChildren().addAll(accountPie, accountDetails);
+        account.getChildren().addAll(accountPie, accountDetails, legendCanvas);
         account.setPrefWidth(windowWidth);
 
         // Returns HBox containing account details
