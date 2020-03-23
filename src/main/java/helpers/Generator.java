@@ -440,9 +440,17 @@ public class Generator {
         ScrollPane accounts = new ScrollPane();
         VBox accountsVBox = new VBox();
 
-        // Updates accounts list with updated values
-        for (int i = 0; i < accountsList.size(); i++) {
-            accountsVBox.getChildren().add(generateAccount(accountsList.get(i)));
+        if (accountsList.size() == 0) {
+            Label noAccounts = new Label("No Accounts Available");
+            noAccounts.setStyle(styles.labelText());
+            noAccounts.setPadding(new Insets(30, 15, 15, windowWidth*2/5 + 50));
+            accountsVBox.getChildren().add(noAccounts);
+        }
+        else {
+            // Updates accounts list with updated values
+            for (int i = 0; i < accountsList.size(); i++) {
+                accountsVBox.getChildren().add(generateAccount(accountsList.get(i)));
+            }
         }
 
         // Allows the user to scroll through the available accounts
@@ -454,6 +462,7 @@ public class Generator {
         // Styling for scroll pane
         accounts.setStyle(styles.accountsList());
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
 
         vBox.getChildren().set(2, accounts);
 
