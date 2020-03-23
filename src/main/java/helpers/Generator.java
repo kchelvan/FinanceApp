@@ -3,6 +3,7 @@ package main.java.helpers;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -290,7 +291,7 @@ public class Generator {
             initialInvestLabel.setText("Initial Investment : " + String.format("%.2f",investment.getInitialInvestment()));
             investmentGoalLabel.setText("Investment Goal : " + String.format("%.2f",investment.getInvestmentGoal()));
             interestRateLabel.setText("Growth Rate : " + String.format("%.2f",investment.getGrowthRate()));
-            timeToMaturation.setText("Time til Maturations : " + String.format("%.2f",investment.getYears()));
+            timeToMaturation.setText("Time until Maturation : " + String.format("%.2f",investment.getYears()) + " Years");
 
             // This updates the graph but breaks the server stuff somehow.
             // Issue might be because I am running client and server from same main.
@@ -416,6 +417,7 @@ public class Generator {
         // Returns a Line Chart Object
         // Hides the line chart
         lineChart.setVisible(false);
+        lineChart.setCreateSymbols(false);
         return lineChart;
     }
 
@@ -424,7 +426,7 @@ public class Generator {
         XYChart.Series<Number, Number> series = new XYChart.Series();
 
         // Generate data for each year using investment class
-        for(int i = 0; i <= (int)Math.ceil(investment.getYears()) * 2; i++){
+        for(int i = 0; i <= (int)Math.ceil(investment.getYears()) + 1; i++){
             Investment tempinvestment = new Investment();
             tempinvestment.investmentFV(investment.getInitialInvestment(),investment.getGrowthRate(),(double)i);
             series.getData().add(new XYChart.Data(i,tempinvestment.getInvestmentGoal()));
