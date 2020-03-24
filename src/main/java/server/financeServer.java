@@ -13,6 +13,7 @@ public class financeServer {
 
     private ArrayList<financeServerThread> fst = new ArrayList<financeServerThread>();
 
+    private boolean newUser = true;
     private int connected = 0;
     public financeServer() {
         start();
@@ -31,7 +32,7 @@ public class financeServer {
         do {
             try {
                 ss = new ServerSocket(port);
-                ss.setSoTimeout(0);
+                ss.setSoTimeout(60000);
                 ssCreated = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -49,10 +50,19 @@ public class financeServer {
                 try {
                     Socket soc = ss.accept();
                     System.out.println("Connection established...");
+                    newUser = true;
                     addUser(soc);
                 } catch (SocketTimeoutException e) {
-                    e.printStackTrace();
-                    System.out.println("Connection error...");
+                    if(connected == 0){ // if no users have connected in a while close the server
+                        if(!newUser) {
+                            System.out.println("No users connecting closing...");
+                            break;
+                        }
+                        else{
+                            System.out.println("Closing soon if no new users connects...");
+                            newUser = false;
+                        }
+                    }
                 }
             }
         }
