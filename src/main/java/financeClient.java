@@ -67,12 +67,6 @@ public class financeClient extends Thread{
         if (!res.contains("ERROR:")){
             setUser(res);
         }
-        /*
-        res can be:
-        error(Invalid username): "Username Not Found !!!"
-        error(wrong password): "Invalid Login"
-        success: username + "," + password + "," + appData.get(username)
-         */
         return res;
     }
 
@@ -93,11 +87,6 @@ public class financeClient extends Thread{
         toServer.flush();
 
         String res = getResult();
-        /*
-        res can be:
-        error(already a user with this username): "User already Exists"
-        success: "User Added Sucessfully"
-         */
 
         if(!res.contains("ERROR:")){
             user = new User(username, password);

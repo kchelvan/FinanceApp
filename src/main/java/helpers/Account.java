@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Account {
 
+    // Variable Declaration
     protected String accountType = "";
     protected String accountName = "";
     protected int accountNumber = 0;
@@ -27,16 +28,16 @@ public class Account {
         setTimeToMaturation();
     }
 
+    // Instantiates an account
     public void addAccount(String accountType, String accountName) {
         this.accountType = accountType;
         this.accountName = accountName;
     }
 
+
+    // Getters and Setters
     public String getAccountType() {
         return accountType;
-    }
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
     }
 
     public String getAccountName() {
@@ -55,9 +56,6 @@ public class Account {
 
     public double getCurrentBalance() {
         return currentBalance;
-    }
-    public void setCurrentBalance(double currentBalance) {
-        this.currentBalance = currentBalance;
     }
 
     public double getGrowthRate() {
@@ -79,9 +77,11 @@ public class Account {
         timeToMaturation = (double) Math.round(Math.log(investmentGoal/currentBalance)/Math.log(1+growthRate) * 100)/100;
     }
 
+    // Performs Deposits and Withdrawals from account
     public void deposit(double amount) {this.currentBalance += amount;}
     public void withdraw(double amount) {this.currentBalance -= amount;}
 
+    // Assigns a randomly generated double to represent the growth rate (between the range of 1.1 to 2.4)
     private static double generateRate(){
         double start = 1.1;
         double end = 2.4;
@@ -97,9 +97,9 @@ public class Account {
         String retString = "";
         retString += accountType + ",";
         retString += accountName + ",";
-        retString += Double.toString(currentBalance) + ",";
-        retString += Double.toString(investmentGoal) + ",";
-        retString += Integer.toString(accountNumber) + ",";
+        retString += currentBalance + ",";
+        retString += investmentGoal + ",";
+        retString += accountNumber + ",";
         retString += Double.toString(growthRate);
 
         return retString;

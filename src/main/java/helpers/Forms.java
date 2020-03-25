@@ -9,13 +9,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.java.financeClient;
 import main.java.helpers.styles.Styling;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Forms {
+    // Global Variable Declaration
     // Single form used to allow only one form to be open at a time
     Stage form =  new Stage();
     Styling styles = new Styling();
@@ -35,7 +35,8 @@ public class Forms {
         Button login = new Button("Login");
         Button signup = new Button("Sign Up");
 
-        form.setTitle("My Investments Tracker");
+        // Assigns Title for Login Form
+        form.setTitle("Login Form");
 
         // Styling for Login Form Elements
         login.setStyle(styles.buttonForm());
@@ -65,11 +66,12 @@ public class Forms {
         login.setOnMouseClicked(e -> {
             try {
                 if (!(usernameText.getText().isEmpty() || passwordText.getText().isEmpty())) {
-                    //TODO Display Error to User. Kind of a band-aid fix. Might want to consider disabling empty inputs
+                    // Displays error message if the login api returns an error message
                     String errorMSG = client.login(usernameText.getText(), passwordText.getText());
                     if (errorMSG.contains("ERROR:")){
                         errorLabel.setText(errorMSG);
                     } else {
+                        // If login is successful, display the main home page
                         for(Account account : client.getAccountList()) {
                             accountsList.add(account);
                         }
@@ -85,9 +87,11 @@ public class Forms {
         });
 
         signup.setOnMouseClicked(e -> {
-            try { //TODO Forced to have try catch here. Not sure if necessary.
+            try {
                 if (!(usernameText.getText().isEmpty() || passwordText.getText().isEmpty())) {
+                    // Displays error message if the signup api returns an error message
                     String errorMSG = client.register(usernameText.getText(), passwordText.getText());
+                    // If signup is successful, display the main home page
                     if (errorMSG.contains("ERROR:")) {
                         errorLabel.setText(errorMSG);
                     } else {
@@ -105,7 +109,7 @@ public class Forms {
             }
         });
 
-        // Displays the Transfer Form to the user
+        // Displays the Login Form to the user
         form.setScene(new Scene(loginPane, 400, 300));
         form.show();
     }
@@ -129,7 +133,9 @@ public class Forms {
         TextField accountName = new TextField();
 
         Button openAccountButton = new Button("OPEN ACCOUNT");
-        form.setTitle("My Investments Tracker");
+
+        // Assigns Title for Open Account Form
+        form.setTitle("Open Account Form");
 
         // Styling for the Form Elements
         selection.setAlignment(Pos.CENTER);
@@ -161,6 +167,7 @@ public class Forms {
                 if (accountName.getText().isEmpty()) {
                     accountName.setText(accountTypeSelect.getValue() + " Account");
                 }
+                // Generates New Account
                 account.addAccount(accountTypeSelect.getValue(), accountName.getText());
                 account.setAccountNumber(index);
                 accountsList.add(account);
@@ -176,15 +183,16 @@ public class Forms {
             }
         });
 
-        // Displays the Transfer Form to the user
+        // Displays the Open Account Form to the user
         form.setScene(new Scene(selection, 400, 300));
         form.show();
 
+        // Updates index
         return index + 1;
     }
 
-    public void depositWithdrawForm(financeClient client, String type, ArrayList<Account> accountsList, VBox accountsVBox,
-                                    Stage primaryStage, VBox vBox) {
+    public void depositWithdrawForm(financeClient client, String type, ArrayList<Account> accountsList,
+                                    VBox accountsVBox, Stage primaryStage, VBox vBox) {
         // Variable Declaration
         GridPane selection = new GridPane();
         selection.setVgap(5);
@@ -204,7 +212,9 @@ public class Forms {
         TextField amountSelect = new TextField();
 
         Button transfer = new Button(type.toUpperCase());
-        form.setTitle("My Investments Tracker");
+
+        // Assigns Title for Deposit/Withdraw Form
+        form.setTitle(type + " Form");
 
         // Styling for the Form Elements
         selection.setAlignment(Pos.CENTER);
@@ -230,11 +240,14 @@ public class Forms {
 
         // Closes the form once the transfer button is selected
         transfer.setOnMouseClicked(e ->{
+            // Assigns index of selected account
             int accIndex = accountNames.indexOf(toSelect.getValue());
 
+            // Performs a Deposit or Withdrawal depending on the account type
             if (type == "Deposit") { accountsList.get(accIndex).deposit(Double.parseDouble(amountSelect.getText())); }
             else { accountsList.get(accIndex).withdraw(Double.parseDouble(amountSelect.getText())); }
 
+            // Updates accountsList when account is updated
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));
@@ -244,7 +257,7 @@ public class Forms {
             form.close();
         });
 
-        // Displays the Transfer Form to the user
+        // Displays the Deposit/Withdraw Form to the user
         form.setScene(new Scene(selection, 350, 350));
         form.show();
     }
@@ -268,7 +281,8 @@ public class Forms {
         TextField amountSelect = new TextField();
 
         Button transfer = new Button("TRANSFER");
-        form.setTitle("My Investments Tracker");
+        // Assigns Title for Transfer Form
+        form.setTitle("Transfer Form");
 
         // Styling for the Form Elements
         selection.setAlignment(Pos.CENTER);
@@ -298,11 +312,15 @@ public class Forms {
 
         // Closes the form once the transfer button is selected
         transfer.setOnMouseClicked(e ->{
+            // Assigns Index for selected accounts
             int toIndex = accountNames.indexOf(toSelect.getValue());
             int fromIndex = accountNames.indexOf(fromSelect.getValue());
+
+            // Performs transferal between two selected accounts
             accountsList.get(fromIndex).withdraw(Double.parseDouble(amountSelect.getText()));
             accountsList.get(toIndex).deposit(Double.parseDouble(amountSelect.getText()));
 
+            // Updates Accounts List
             accountsVBox.getChildren().clear();
             for(Account tempAcc:accountsList) {
                 accountsVBox.getChildren().add(generate.generateAccount(tempAcc));

@@ -3,7 +3,6 @@ package main.java.helpers;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -70,6 +69,7 @@ public class Generator {
         Label growthRate = new Label("Growth Rate: " + investmentRate.toString());
         Label timeToMaturation = new Label("Time until Maturation: " + growthTime.toString() + " years");
 
+        // Styling for background color of account
         if (accountNum % 2 != 0) { account.setStyle("-fx-background-color: #BEC3D4"); }
 
         // Font Styling for Account Details
@@ -82,6 +82,7 @@ public class Generator {
 
         accountDetails.setPadding(new Insets(75, 75, 0, 200));
 
+        // Generates Legend for Pie Chart
         lc.setFill(Paint.valueOf("#616BA2"));
         lc.fillRect(0, 75, 50, 35);
         lc.setFont(new Font(15));
@@ -198,7 +199,6 @@ public class Generator {
         lineGraph.setLegendVisible(false);
 
         // If the user provides three fields in the calculator, calculate the value of the missing field
-        // TODO : Check for incorrect input and display error message
         calculate.setOnMouseClicked(e -> {
             String initialInvestment = "";
             String investmentGoal = "";
@@ -207,20 +207,20 @@ public class Generator {
 
             Investment investment = new Investment();
 
-            //TODO : Try to use these error conditions to provide error free UX.
-            //When user provides invalid input
+            // When user provides an invalid input, provides a message describing an invalid input
             if(isValidInput(initialInvestText.getText()) && isValidInput(investmentGoalText.getText()) &&
                isValidInput(interestRateText.getText()) && isValidInput(yearsText.getText())){
                    System.out.println("Invalid Input");
                }
 
-            // When user provides four values
+            // When user provides four values, returns a message stating that four values are provided
             if(!initialInvestText.getText().isEmpty() && !investmentGoalText.getText().isEmpty() &&
                !interestRateText.getText().isEmpty() && !yearsText.getText().isEmpty()){
                 System.out.println("ERROR, Four Values provided");
             }
 
-            // There should be a way to reduce all this condtions
+            // If three values are provided, calculates the value of the missing value and displays these values
+            // to the accounts details pane
             if (initialInvestText.getText().isEmpty() &&
                     !investmentGoalText.getText().isEmpty() &&
                     !interestRateText.getText().isEmpty() &&
@@ -267,34 +267,12 @@ public class Generator {
                                            Double.parseDouble(interestRateText.getText()));
             }
 
-            // Display the update values in the account details VBox
-            /*
-            initialInvestLabel.setText("Initial Investment: " +
-                    (initialInvestment != "" ? initialInvestment : initialInvestText.getText().isEmpty()
-                            ? ""
-                            : "$" +
-                            initialInvestText.getText()));
-            investmentGoalLabel.setText("Investment Goal: " +
-                    (investmentGoal != "" ? investmentGoal : investmentGoalText.getText().isEmpty()
-                            ? ""
-                            : "$" + investmentGoalText.getText()));
-            interestRateLabel.setText("Growth Rate: " +
-                    (interestRate != "" ? interestRate : interestRateText.getText().isEmpty()
-                            ? ""
-                            : interestRateText.getText() + "%"));
-            timeToMaturation.setText("Time til Maturation: " +
-                    (time != "" ? time : yearsText.getText().isEmpty()
-                            ? ""
-                            : yearsText.getText() + " years"));
-            */
-
             initialInvestLabel.setText("Initial Investment : " + String.format("%.2f",investment.getInitialInvestment()));
             investmentGoalLabel.setText("Investment Goal : " + String.format("%.2f",investment.getInvestmentGoal()));
             interestRateLabel.setText("Growth Rate : " + String.format("%.2f",investment.getGrowthRate()));
             timeToMaturation.setText("Time until Maturation : " + String.format("%.2f",investment.getYears()) + " Years");
 
-            // This updates the graph but breaks the server stuff somehow.
-            // Issue might be because I am running client and server from same main.
+            // Displays line graph representing the inputted values in the calculator
             lineGraph.getData().clear();
             lineGraph.getData().add(generateSeries(investment));
             lineGraph.setVisible(true);
@@ -332,7 +310,6 @@ public class Generator {
                     initialInvestText.setText(Double.toString(accountsList.get(index).getCurrentBalance()));
                     investmentGoalText.setText(Double.toString(accountsList.get(index).getInvestmentGoal()));
                     interestRateText.setText(Double.toString(accountsList.get(index).getGrowthRate()));
-//                    yearsText.setText(Double.toString(accountsList.get(index).getTimeToMaturation())); //TODO Remove
                 });
             }
         }
@@ -340,10 +317,12 @@ public class Generator {
         // Combines all header items to the main header HBox
         header.getChildren().addAll(calculator, details, accounts);
 
+        // Applies styling for investment calculator component
         vBox.setStyle("-fx-background-color: #D8DEF1");
         vBox.setPrefHeight(1080.0);
         vBox.getChildren().addAll(header, lineGraph);
 
+        // Returns Investment Calculator component
         return vBox;
     }
 
@@ -364,6 +343,7 @@ public class Generator {
         myAccountNav.setStyle(styles.navDeselcted());
         investmentCalculatorNav.setStyle(styles.navSelected());
 
+        // Appends all navigation buttons to a single HBox
         navigation.getChildren().addAll(myAccountNav, investmentCalculatorNav);
 
         // Returns an HBox containing the styled navigation buttons
@@ -394,6 +374,7 @@ public class Generator {
         openAccount.setMinHeight(35);
         transfer.setMinHeight(35);
 
+        // Appends all footer buttons to a single HBox
         footer.getChildren().addAll(openAccount, deposit, withdraw, transfer);
 
         // Returns an HBox containing all the footer buttons
@@ -411,8 +392,6 @@ public class Generator {
         // Assigns title for the line graph
         lineChart.setTitle("Expected Growth of Initial Investment");
         lineChart.setPrefHeight(650);
-
-        // Assigns data points for the line graph depicting the estimated growth using the user's provided values
 
         // Returns a Line Chart Object
         // Hides the line chart
@@ -432,6 +411,7 @@ public class Generator {
             series.getData().add(new XYChart.Data(i,tempinvestment.getInvestmentGoal()));
         }
 
+        // Returns a series for the chart
         return series;
     }
 
@@ -440,12 +420,14 @@ public class Generator {
         ScrollPane accounts = new ScrollPane();
         VBox accountsVBox = new VBox();
 
+        // Displays a label if no accounts exist
         if (accountsList.size() == 0) {
             Label noAccounts = new Label("No Accounts Available");
             noAccounts.setStyle(styles.labelText());
             noAccounts.setPadding(new Insets(30, 15, 15, windowWidth*2/5 + 50));
             accountsVBox.getChildren().add(noAccounts);
         }
+        // If accounts exist, display a vBox containing all the accounts
         else {
             // Updates accounts list with updated values
             for (int i = 0; i < accountsList.size(); i++) {
@@ -463,11 +445,9 @@ public class Generator {
         accounts.setStyle(styles.accountsList());
         accounts.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-
         vBox.getChildren().set(2, accounts);
 
         accountsVBox.setOnMouseClicked(e -> {
-            // Variable Declaration
             // Obtains index of selected account
             Integer accountIndex = (int) e.getY() / 350;
             Account account = accountsList.get(accountIndex);
@@ -479,6 +459,7 @@ public class Generator {
             // Variable Declaration
             // Obtains index of selected account
             Integer accountIndex = (int) e.getY() / 350;
+            // Adjusts styling when an account is hovered
             if (primaryStage.isFocused()) {
                 if (accountsList.size() > accountIndex) {
                     // Reset's surrounding account rows to their respective colour

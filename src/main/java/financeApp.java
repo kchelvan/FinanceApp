@@ -1,9 +1,7 @@
 package main.java;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -56,7 +54,6 @@ public class financeApp extends Application {
 
         // Logs the current user out from the main app
         logoutFile.setOnAction(e -> {
-            System.out.println("CLICKED");
             accountsList.clear();
             forms.loginForm(client, accountsList, primaryStage, vBox);
             primaryStage.close();
