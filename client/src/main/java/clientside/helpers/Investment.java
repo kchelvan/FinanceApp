@@ -1,4 +1,4 @@
-package main.java.helpers;
+package clientside.helpers;
 
 // This is a helper class to calculate investment values
 // Didn't do monthly because it makes growth rate and year math harder

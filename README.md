@@ -9,3 +9,15 @@ User              Pass
 Alex              123  
 wert              bert  
 foo               boo
+
+Using Gradle:
+seperate projects for server and client
+
+to run server:
+	gradle :server:run
+
+to run client:
+	gradle :client:run
+
+to run both:
+	gradle run --parallel

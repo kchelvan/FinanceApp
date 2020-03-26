@@ -1,4 +1,4 @@
-package main.java.helpers;
+package clientside.helpers;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,8 +21,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import main.java.financeClient;
-import main.java.helpers.styles.Styling;
+import clientside.financeClient;
+import clientside.helpers.styles.Styling;
 
 import java.util.ArrayList;
 

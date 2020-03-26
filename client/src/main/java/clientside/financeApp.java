@@ -1,4 +1,9 @@
-package main.java;
+package clientside;
+
+import clientside.helpers.Account;
+import clientside.helpers.Forms;
+import clientside.helpers.Generator;
+import clientside.helpers.styles.Styling;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,10 +13,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.java.helpers.Account;
-import main.java.helpers.Forms;
-import main.java.helpers.Generator;
-import main.java.helpers.styles.Styling;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class financeApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         financeClient client = new financeClient();
+        client.setDaemon(true);
         client.start();
 
         // Variable Declaration

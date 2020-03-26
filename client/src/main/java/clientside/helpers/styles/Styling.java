@@ -1,4 +1,4 @@
-package main.java.helpers.styles;
+package clientside.helpers.styles;
 
 import java.util.ArrayList;
 

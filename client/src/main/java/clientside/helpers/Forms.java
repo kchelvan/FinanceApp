@@ -1,4 +1,7 @@
-package main.java.helpers;
+package clientside.helpers;
+
+import clientside.financeClient;
+import clientside.helpers.styles.Styling;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -7,8 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.java.financeClient;
-import main.java.helpers.styles.Styling;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

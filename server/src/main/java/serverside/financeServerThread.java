@@ -1,6 +1,4 @@
-package main.java.server;
-
-import main.java.helpers.TempDatabase;
+package serverside;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

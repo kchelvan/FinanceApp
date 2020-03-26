@@ -1,4 +1,4 @@
-package main.java.helpers;
+package serverside;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class TempDatabase{
 
     // Savefile name. Need to make this universal for windows
     // ie : Save file in documents or appdata folder.
-    String tempFile = "tempdata.txt";
+    String tempFile = "data/tempdata.txt";
 
     // Default constructor, Loads data from file to hashmaps
     public TempDatabase(){

@@ -1,4 +1,4 @@
-package main.java.helpers;
+package clientside.helpers;
 
 import java.util.Random;
 

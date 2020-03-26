@@ -1,7 +1,7 @@
-package main.java;
+package clientside;
 
-import main.java.helpers.Account;
-import main.java.helpers.User;
+import clientside.helpers.Account;
+import clientside.helpers.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

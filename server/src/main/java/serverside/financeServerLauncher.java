@@ -1,4 +1,4 @@
-package main.java.server;
+package serverside;
 
 public class financeServerLauncher {
     public static void main(String[] args) {

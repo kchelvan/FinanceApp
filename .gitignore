@@ -1,5 +1,7 @@
-#Class files?
-*.class
-*.xml
-.idea/vcs.xml
-.idea/misc.xml
+.gradle
+.settings
+*/gradle
+*/build
+.project
+.classpath
+
