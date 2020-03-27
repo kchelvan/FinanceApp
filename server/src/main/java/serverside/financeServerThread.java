@@ -15,7 +15,7 @@ public class financeServerThread extends Thread {
     private DataInputStream fromClient;
     private DataOutputStream toClient;
 
-    private TempDatabase db;
+    private Database db;
 
     /**
      * The constructor for the thread
@@ -34,7 +34,7 @@ public class financeServerThread extends Thread {
         fromClient = new DataInputStream(soc.getInputStream());
         toClient = new DataOutputStream(soc.getOutputStream());
 
-        db = new TempDatabase();
+        db = new Database();
     }
 
     /**

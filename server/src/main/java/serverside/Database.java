@@ -7,7 +7,7 @@ import java.io.*;
 //This is a temporary database in clientside.
 //This needs to be implemented in the server side
 
-public class TempDatabase{
+public class Database{
 
     // One stores username and password, other store username and data
     // There should be a better way to do this
@@ -16,10 +16,10 @@ public class TempDatabase{
 
     // Savefile name. Need to make this universal for windows
     // ie : Save file in documents or appdata folder.
-    String tempFile = "data/tempdata.txt";
+    String tempFile = "data/database.csv";
 
     // Default constructor, Loads data from file to hashmaps
-    public TempDatabase(){
+    public Database(){
         userData.clear();
         try{
             Scanner savedData = new Scanner(new File(tempFile));
