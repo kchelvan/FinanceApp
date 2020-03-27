@@ -1,7 +1,6 @@
 package clientside.helpers;
 
 // This is a helper class to calculate investment values
-// Didn't do monthly because it makes growth rate and year math harder
 // FV = IV * (1 + rate)^years
 public class Investment{
     private double initialInvestment;
@@ -15,7 +14,6 @@ public class Investment{
         this.growthRate = growthRate;
         this.years = years;
 
-        //this.investmentGoal = initialInvestment * Math.pow((1+growthRate/1200),(double)years*12);
         this.investmentGoal = initialInvestment * Math.pow((1 + growthRate), years);
     }
     
@@ -25,7 +23,6 @@ public class Investment{
         this.growthRate = growthRate;
         this.years = years;
 
-        //this.initialInvestment = investmentGoal / Math.pow((1+growthRate/1200),(double)years*12);
         this.initialInvestment = investmentGoal / Math.pow(1 + growthRate,years);
     }
 
@@ -35,7 +32,6 @@ public class Investment{
         this.investmentGoal = investmentGoal;
         this.years = years;
 
-        //this.growthRate = (Math.pow(initialInvestment / investmentGoal, 1 / (double)years * 12) - 1) * 1200;
         this.growthRate = Math.pow(investmentGoal/initialInvestment, 1 / years) - 1;
 
     }
