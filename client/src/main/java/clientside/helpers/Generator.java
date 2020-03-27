@@ -147,10 +147,10 @@ public class Generator {
 
         Label calculatorTitle = new Label("Investment Calculator");
         Label title = new Label("Investment Growth");
-        Label initialInvestLabel = new Label("Initial Investment: " + initialInvestText.getText());
-        Label investmentGoalLabel = new Label("Investment Goal: " + investmentGoalText.getText() );
-        Label interestRateLabel = new Label("Growth Rate %: " + interestRateText.getText());
-        Label timeToMaturation = new Label("Time til Maturation (Years) : ");
+        Label initialInvestLabel = new Label("Initial Investment : " + initialInvestText.getText());
+        Label investmentGoalLabel = new Label("Investment Goal : " + investmentGoalText.getText() );
+        Label interestRateLabel = new Label("Growth Rate : " + interestRateText.getText());
+        Label timeToMaturation = new Label("Time til Maturation : ");
 
         Integer savingsAccountsCount = 0;
 
@@ -200,10 +200,6 @@ public class Generator {
 
         // If the user provides three fields in the calculator, calculate the value of the missing field
         calculate.setOnMouseClicked(e -> {
-            String initialInvestment = "";
-            String investmentGoal = "";
-            String interestRate = "";
-            String time = "";
 
             Investment investment = new Investment();
 
@@ -225,9 +221,6 @@ public class Generator {
                     !investmentGoalText.getText().isEmpty() &&
                     !interestRateText.getText().isEmpty() &&
                     !yearsText.getText().isEmpty()) {
-                initialInvestment = "$" + Math.round(Double.parseDouble(investmentGoalText.getText()) /
-                        (1 + (Double.parseDouble(interestRateText.getText()) / 100)
-                                * Double.parseDouble(yearsText.getText()))*100.0) / 100.0;
                 investment.investmentIV(Double.parseDouble(investmentGoalText.getText()),
                                         Double.parseDouble(interestRateText.getText()),
                                         Double.parseDouble(yearsText.getText()));
@@ -236,9 +229,6 @@ public class Generator {
                     !initialInvestText.getText().isEmpty() &&
                     !interestRateText.getText().isEmpty() &&
                     !yearsText.getText().isEmpty()) {
-                investmentGoal = "$" + Math.round(Double.parseDouble(initialInvestText.getText()) *
-                        (1 + ((Double.parseDouble(interestRateText.getText()) / 100) *
-                                Double.parseDouble(yearsText.getText())))*100.0 * (100.0/100.0));
                 investment.investmentFV(Double.parseDouble(initialInvestText.getText()),
                                         Double.parseDouble(interestRateText.getText()),
                                         Double.parseDouble(yearsText.getText()));
@@ -247,9 +237,6 @@ public class Generator {
                     !initialInvestText.getText().isEmpty() &&
                     !investmentGoalText.getText().isEmpty() &&
                     !yearsText.getText().isEmpty()) {
-                interestRate = Math.round((Double.parseDouble(investmentGoalText.getText()) /
-                        Double.parseDouble(initialInvestText.getText())) - 1) /
-                        Double.parseDouble(yearsText.getText()) * 100.0 * (100.0/100.0) + "%";
                 investment.investmentGR(Double.parseDouble(initialInvestText.getText()),
                                         Double.parseDouble(investmentGoalText.getText()),
                                         Double.parseDouble(yearsText.getText()));
@@ -258,18 +245,14 @@ public class Generator {
                     !initialInvestText.getText().isEmpty() &&
                     !investmentGoalText.getText().isEmpty() &&
                     !interestRateText.getText().isEmpty()) {
-                time = Double.toString(Math.round(
-                        ((Double.parseDouble(investmentGoalText.getText()) /
-                                Double.parseDouble(initialInvestText.getText())) - 1) /
-                                (Double.parseDouble(interestRateText.getText())/100 * 100.0)/100.0)) + " years";
                 investment.investmentYears(Double.parseDouble(initialInvestText.getText()),
                                            Double.parseDouble(investmentGoalText.getText()),
                                            Double.parseDouble(interestRateText.getText()));
             }
 
-            initialInvestLabel.setText("Initial Investment : " + String.format("%.2f",investment.getInitialInvestment()));
-            investmentGoalLabel.setText("Investment Goal : " + String.format("%.2f",investment.getInvestmentGoal()));
-            interestRateLabel.setText("Growth Rate : " + String.format("%.2f",investment.getGrowthRate()));
+            initialInvestLabel.setText("Initial Investment : $ " + String.format("%.2f",investment.getInitialInvestment()));
+            investmentGoalLabel.setText("Investment Goal : $ " + String.format("%.2f",investment.getInvestmentGoal()));
+            interestRateLabel.setText("Growth Rate : " + String.format("%.2f",investment.getGrowthRate()) + " %");
             timeToMaturation.setText("Time until Maturation : " + String.format("%.2f",investment.getYears()) + " Years");
 
             // Displays line graph representing the inputted values in the calculator
@@ -402,7 +385,7 @@ public class Generator {
 
     // Generates series for the given investment data
     public XYChart.Series<Number, Number> generateSeries(Investment investment){
-        XYChart.Series<Number, Number> series = new XYChart.Series();
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
 
         // Generate data for each year using investment class
         for(int i = 0; i <= (int)Math.ceil(investment.getYears()) + 1; i++){
