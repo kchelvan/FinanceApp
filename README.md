@@ -16,12 +16,15 @@ gradle needs java11 installed
 There are seperate projects for server and client
 
 to run server:
+
 	gradle :server:run
 
 to run client:
+
 	gradle :client:run
 
 to run both:
+
 	gradle run --parallel
 
 After exiting client, server will run for 30 seconds before stop executing.
