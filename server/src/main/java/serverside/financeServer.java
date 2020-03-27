@@ -32,7 +32,7 @@ public class financeServer {
         do {
             try {
                 ss = new ServerSocket(port);
-                ss.setSoTimeout(60000);
+                ss.setSoTimeout(30000);
                 ssCreated = true;
             } catch (IOException e) {
                 e.printStackTrace();
