@@ -4,18 +4,15 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.*;
 
-//This is a temporary database in clientside.
-//This needs to be implemented in the server side
-
+/*
+* A database class for saving and retreving user data
+*/
 public class Database{
 
-    // One stores username and password, other store username and data
-    // There should be a better way to do this
+    // One stores username and password, other stores username and data
     HashMap<String,String> userData = new HashMap<>();
     HashMap<String,String> appData = new HashMap<>();
 
-    // Savefile name. Need to make this universal for windows
-    // ie : Save file in documents or appdata folder.
     String tempFile = "data/database.csv";
 
     // Default constructor, Loads data from file to hashmaps
@@ -84,7 +81,7 @@ public class Database{
         return "Databased saved sucessfully";
     }
 
-    //Save Database File
+    //Save Database to File
     public void saveFile(){
         try{
             PrintWriter writer = new PrintWriter(new File(tempFile));
