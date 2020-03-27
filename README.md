@@ -3,14 +3,14 @@
 CSV Format for Testing:
 Username, Password, AccountList Size, Account info (all account info comes after)
 
-###Valid Accounts: 
+### Valid Accounts: 
 
 User              Pass  
 Alex              123  
 wert              bert  
 foo               boo
 
-###Gradle Setup
+### Gradle Setup
 
 gradle needs java11 installed
 There are seperate projects for server and client
