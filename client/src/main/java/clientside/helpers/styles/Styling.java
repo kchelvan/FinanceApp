@@ -10,9 +10,12 @@ public class Styling {
         // Variable Declaration
         ArrayList<Integer> window = new ArrayList<Integer>();
 
-        Integer windowWidth = 1366;
-        Integer windowHeight = 768;
-
+        // Change to fixed size if something does not show, especially the footer
+        //Integer windowWidth = 960;
+        //Integer windowHeight = 720;
+        int windowWidth = (int)Screen.getPrimary().getBounds().getWidth() - 100;
+        int windowHeight = (int)Screen.getPrimary().getBounds().getHeight() - 100;
+        
         window.add(windowWidth);
         window.add(windowHeight);
 
@@ -116,7 +119,7 @@ public class Styling {
     }
 
     public String pageHeadText() {
-        return "-fx-font-size: 40.0; -fx-font-family: Rockwell";
+        return "-fx-font-size: 35.0; -fx-font-family: Rockwell";
     }
 
     public String titleText() {
