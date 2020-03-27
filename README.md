@@ -12,7 +12,8 @@ foo               boo
 
 ### Gradle Setup
 
-gradle needs java11 installed
+gradle needs java 11 installed
+
 There are seperate projects for server and client
 
 to run server:
@@ -27,4 +28,4 @@ to run both:
 
 	gradle run --parallel
 
-After exiting client, server will run for 30 seconds before stop executing.
+After exiting client, server will run for 30 seconds before stopping execution
